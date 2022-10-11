@@ -1,0 +1,40 @@
+*{
+    padding: 0px;
+    margin: 0px;
+
+    --navbar-height: 4em;
+}
+
+.navbar {
+    position: fixed;
+    background-color: #373737;
+    height: var(--navbar-height);
+    width: 100%;
+    text-align: center;
+    display: flex;
+}
+.navbar-container{
+    position:absolute;
+    display: flex;
+    top:50%;
+    transform: translate(0%, -50%);
+}
+.navbar-container a, .navbar-container p {
+    color: white;
+    
+    /*margin: auto;*/
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.left {
+    left: 0px;
+}
+.right {
+    right: 0px;
+}
+
+.section {
+    width: 100%;
+    height: calc(100vh - var(--navbar-height));
+    padding-top: var(--navbar-height);
+}
