@@ -18,19 +18,6 @@ function setCookie(cname, cvalue) {
     const d = new Date();
     d.setTime(d.getTime() + (5*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";   
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax;";   
 }
 
-function checkCookie() {
-    let username = getCookie("username");
-    if (username != "") {
-        alert("Welcome again " + username);  
-    } else {
-        username = prompt("Please enter your name:", "");
-        if (username != "" && username != null) {
-            setCookie("username", username, 365);       
-        }     
-    }   
-}
-
-export {checkCookie, setCookie, getCookie};
