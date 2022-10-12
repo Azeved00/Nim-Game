@@ -18,10 +18,11 @@
     display: flex;
     top:50%;
     transform: translate(0%, -50%);
+    margin: 0px 15px;
 }
 .navbar-container a, .navbar-container p {
     color: white;
-    
+    cursor: pointer; 
     /*margin: auto;*/
     padding-left: 10px;
     padding-right: 10px;
@@ -38,4 +39,25 @@
     height: calc(100vh - var(--navbar-height));
     padding-top: var(--navbar-height);
     display: none;
+}
+
+#loginBtn {
+    background-color: rgba(251, 251, 251);
+    border-radius: 8px;
+    border-width: 0;
+    color: #333333;
+    cursor: pointer;
+    line-height: 11px;
+    padding: 10px 12px;
+    text-align: center;
+    transition: all 200ms;
+    margin-left: 20px;
+}
+
+#loginForm {
+    line-height : 30px;
+}
+#loginForm input {
+    height: 20px;
+    margin: auto;
 }

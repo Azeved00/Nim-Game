@@ -5,9 +5,12 @@
 		<meta charset=UTF-8>
 		<link rel="stylesheet" href="cont/style.css" type="text/css">
 		
+        <script src="src/cookie.js"></script>  
+        <script src="src/helpers.js"></script>
+        <script src="src/app.js"></script>  
 	</head>
 
-	<body>
+	<body onload="onLoad()">
         <div class="navbar">
             <div class="navbar-container left">
                 <a target="Logo"> Home </a>
@@ -17,11 +20,13 @@
                 <a target="Classification"> Classification </a>
             </div>
             <div class="navbar-container right">
-                <p> User </p>
-                <input type="text" />
-                <p> Password </p> 
-                <input type="text" />
-                <a href="#">Log in</a>
+                <form id="loginForm" style="display: none;">
+                    <p> User </p>
+                    <input type="text" />
+                    <p> Password </p> 
+                    <input type="text" />
+                </form>
+                <button id="loginBtn" onclick="logIn()">Log in</button>
             </div>
         </div>
 
@@ -54,6 +59,4 @@
             </table>
         </div>
     </body>
-    <script src="src/cookie.js"></script>  
-	<script src="src/app.js"></script>  
 <html>
