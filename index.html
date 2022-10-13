@@ -13,18 +13,19 @@
 	<body onload="onLoad()">
         <div class="navbar">
             <div class="navbar-container left">
-                <a target="Logo"> <img src="cont/img/logo-white.png" alt="Home" class="navbar-logo"></a>
-                <a target="Commands"> Commands </a>
-                <a target="Play"> Play </a>
-                <a target="Messages"> Messages </a>
-                <a target="Classification"> Classification </a>
+                <a  href="#" data-target="Logo"> 
+                    <img src="cont/img/logo-white.png" alt="Home" class="navbar-logo">
+                </a>
+                <a href="#" data-target="Commands"> Commands </a>
+                <a href="#" data-target="Play" > Play </a>
+                <a href="#" data-target="Classification"> Classification </a>
             </div>
             <div class="navbar-container right">
                 <form id="loginForm" style="display: none;">
-                    <p> User </p>
-                    <input type="text" />
-                    <p> Password </p> 
-                    <input type="text"  />
+                    <label for="user"> User </label>
+                    <input id="user" type="text">
+                    <label for="pass"> Password </label> 
+                    <input id="pass" type="text">
                 </form>
                 <button id="loginBtn" class="btn" onclick="logIn()">Log in</button>
             </div>
@@ -43,18 +44,18 @@
             <div>
                 <p>Edit configuration</p>
                 <p>Choose Opponent</p>
-                <form id="configForm" action="">
+                <form id="configForm" action="./app.js" method="post">
                     <div>
                         <label for="size"> Number of collumns</label>
-                        <input name="size" type="integer" value="5">
+                        <input id="size" type="number" value="5">
                     </div>
                     <div>
                         <label for="first"> Play first? </label>
-                        <input name="first" type="checkbox">
+                        <input id="first" type="checkbox">
                     </div>
                     <div>
                         <label for="bot">Play Agains AI ?</label>
-                        <input name="bot" type="checkbox">
+                        <input id="bot" type="checkbox">
                     </div>
                     <div>
                         <p>Select Ai Dificulty:</p>
@@ -72,9 +73,13 @@
         </div>
         <div id="Play" class="section">
             <h1>tabuleiro vai ser aqui</h1>
-        </div>
-        <div id="Messages" class="section">
-            <h1>Messages</h1>
+            <div id="Board"></div>
+            <div class="messages-wrapper">
+                <div id="Messages">
+                    <p>Welcome to Nim!</p>
+                </div>
+                <input id="messageInput" type="text" placeholder="Write a message here">
+            </div>
         </div>
         <div id="Classification" class="section">
             <h1> Classification </h1>
@@ -90,4 +95,4 @@
             </table>
         </div>
     </body>
-<html>
+</html>
