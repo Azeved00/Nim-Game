@@ -5,7 +5,7 @@
     --navbar-height: 4em;
     --navbar-margin-y: 10px;
     --navbar-margin-x: 15px;
-e
+
     --color-1: #1b1c26;
     --color-2: #373737;
     --color-3: #65688c;
@@ -26,6 +26,7 @@ body{
     width: calc(100% - 2*var(--navbar-margin-x));
     text-align: center;
     display: flex;
+    z-index: 2048;
 }
 .navbar-container{
     position:absolute;
@@ -37,7 +38,7 @@ body{
 .navbar-container a, .navbar-container p {
     color: var(--color-1);
     cursor: pointer;
-    /*margin: auto;*/
+    margin: auto;
     padding-left: 10px;
     font-size: 18px;
     padding-right: 10px;
@@ -50,11 +51,12 @@ body{
 }
 
 .section {
+    --section-offset: calc(var(--navbar-height) + 3 * var(--navbar-margin-y));
     width: 100%;
-    height: calc(100vh - var(--navbar-height) - 3*var(--navbar-margin-y));
-    padding-top: calc(var(--navbar-height) + 3*var(--navbar-margin-y));
+    height: calc(100vh - var(--section-offset));
+    padding-top: var(--section-offset);
     display: none;
-
+    position: relative;
     font-size: 18px;
 }
 
@@ -82,4 +84,29 @@ body{
 #loginForm input {
     height: 20px;
     margin: auto;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#Logo img{
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#logoBtn{
+    font-size:25px;
+    line-height: 30px;
+}
+.navbar-logo{
+    width: 100px;
+    height: 50px;
+}
+.logoFigure  {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

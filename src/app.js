@@ -11,6 +11,8 @@ function showSection(elemId){
 }
 
 function onLoad() {
+
+    setCookie(stateId, defaultState);
     if(isNullOrEmpty(getCookie(stateId)))
         setCookie(stateId, defaultState);
     showSection(getCookie(stateId));

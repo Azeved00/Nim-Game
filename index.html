@@ -13,7 +13,7 @@
 	<body onload="onLoad()">
         <div class="navbar">
             <div class="navbar-container left">
-                <a target="Logo"> Home </a>
+                <a target="Logo"> <img src="cont/img/logo-white.png" alt="Home" class="navbar-logo"></a>
                 <a target="Commands"> Commands </a>
                 <a target="Play"> Play </a>
                 <a target="Messages"> Messages </a>
@@ -31,10 +31,10 @@
         </div>
 
         <div id="Logo" class="section">
-            <figure>
-                <img alt="nimLogo" src="./cont/img/logo.png">
-            <figcaption>
-                    <button class="btn">Play Now!</button>   
+            <figure class="logoFigure">
+                <img alt="nimLogo" src="./cont/img/logo.png" class="center">
+                <figcaption>
+                    <button id="logoBtn" class="btn center" onclick='showSection("Play")'>Play Nim Now!</button>   
                 </figcaption>
             </figure>
         </div>
