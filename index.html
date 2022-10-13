@@ -24,27 +24,58 @@
                     <p> User </p>
                     <input type="text" />
                     <p> Password </p> 
-                    <input type="text" />
+                    <input type="text"  />
                 </form>
-                <button id="loginBtn" onclick="logIn()">Log in</button>
+                <button id="loginBtn" class="btn" onclick="logIn()">Log in</button>
             </div>
         </div>
 
         <div id="Logo" class="section">
-            <h1>Nix</h1>
-            <img src="#" alt="logo"/> 
+            <figure>
+                <img alt="nimLogo" src="./cont/img/logo.png">
+            <figcaption>
+                    <button class="btn">Play Now!</button>   
+                </figcaption>
+            </figure>
         </div>
         <div id="Commands" class="section"> 
             <h1> Commands Section</h1>
             <div>
                 <p>Edit configuration</p>
                 <p>Choose Opponent</p>
+                <form id="configForm" action="">
+                    <div>
+                        <label for="size"> Number of collumns</label>
+                        <input name="size" type="integer" value="5">
+                    </div>
+                    <div>
+                        <label for="first"> Play first? </label>
+                        <input name="first" type="checkbox">
+                    </div>
+                    <div>
+                        <label for="bot">Play Agains AI ?</label>
+                        <input name="bot" type="checkbox">
+                    </div>
+                    <div>
+                        <p>Select Ai Dificulty:</p>
+                        <input type="radio" value="1" name="dif"> <label>Level 1</label>
+                        <input type="radio" value="2" name="dif"> <label>Level 2</label>
+                        <input type="radio" value="3" name="dif"> <label>Level 3</label>
+                    </div>
+                    <button type="submit" class="btn"> Change Configuration </button> 
+                </form>
                 <p>Start Game</p>
+                <button class="btn" type="submit"> Start Game!</button>
                 <p>How to play</p>
-                <p>Give up</p>
+                <button class="btn">Give Up!</button>
             </div>
         </div>
-
+        <div id="Play" class="section">
+            <h1>tabuleiro vai ser aqui</h1>
+        </div>
+        <div id="Messages" class="section">
+            <h1>Messages</h1>
+        </div>
         <div id="Classification" class="section">
             <h1> Classification </h1>
             <table>

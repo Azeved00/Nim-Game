@@ -3,13 +3,27 @@
     margin: 0px;
 
     --navbar-height: 4em;
+    --navbar-margin-y: 10px;
+    --navbar-margin-x: 15px;
+e
+    --color-1: #1b1c26;
+    --color-2: #373737;
+    --color-3: #65688c;
+    --color-4: #898ebf;
+    --color-5: #aeb3db;
+    --color-6: #333a44;
 }
-
+body{
+    background-color: var(--color-6);
+    color: white;
+}
 .navbar {
     position: fixed;
-    background-color: #373737;
+    background-color: var(--color-5);
     height: var(--navbar-height);
-    width: 100%;
+    margin: var(--navbar-margin-x) var(--navbar-margin-y);
+    border-radius: 30px;
+    width: calc(100% - 2*var(--navbar-margin-x));
     text-align: center;
     display: flex;
 }
@@ -21,10 +35,11 @@
     margin: 0px 15px;
 }
 .navbar-container a, .navbar-container p {
-    color: white;
-    cursor: pointer; 
+    color: var(--color-1);
+    cursor: pointer;
     /*margin: auto;*/
     padding-left: 10px;
+    font-size: 18px;
     padding-right: 10px;
 }
 .left {
@@ -36,22 +51,29 @@
 
 .section {
     width: 100%;
-    height: calc(100vh - var(--navbar-height));
-    padding-top: var(--navbar-height);
+    height: calc(100vh - var(--navbar-height) - 3*var(--navbar-margin-y));
+    padding-top: calc(var(--navbar-height) + 3*var(--navbar-margin-y));
     display: none;
+
+    font-size: 18px;
 }
 
-#loginBtn {
-    background-color: rgba(251, 251, 251);
+.btn {
+    background-color: var(--color-3);
     border-radius: 8px;
     border-width: 0;
-    color: #333333;
+    color: white;
     cursor: pointer;
+    font-size: 18px;
     line-height: 11px;
     padding: 10px 12px;
     text-align: center;
     transition: all 200ms;
     margin-left: 20px;
+}
+.btn:hoover {
+    background-color: var(--color-4);
+    border-radius: 12px;
 }
 
 #loginForm {
