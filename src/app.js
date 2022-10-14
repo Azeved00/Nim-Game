@@ -12,7 +12,7 @@ function showSection(elemId){
 
 function onLoad() {
 
-    setCookie(stateId, defaultState);
+    //setCookie(stateId, defaultState);
     if(isNullOrEmpty(getCookie(stateId)))
         setCookie(stateId, defaultState);
     showSection(getCookie(stateId));
@@ -20,7 +20,10 @@ function onLoad() {
     document.querySelectorAll('.navbar-container a').forEach((e) => {
         e.addEventListener("click", (e) => {
             //console.log(e.target.target);
-            showSection(e.target.target);
+            if(!isNullOrEmpty(e.target.target))
+                showSection(e.target.target);
+            else
+                showSection(defaultState);
         })
     });
 }
