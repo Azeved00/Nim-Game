@@ -3,8 +3,8 @@
     margin: 0px;
 
     --navbar-height: 4em;
-    --navbar-margin-y: 10px;
-    --navbar-margin-x: 15px;
+    --navbar-margin-y: 15px;
+    --navbar-margin-x: 10px;
 
     --color-1: #1b1c26;
     --color-2: #373737;
@@ -21,7 +21,7 @@ body{
     position: fixed;
     background-color: var(--color-5);
     height: var(--navbar-height);
-    margin: var(--navbar-margin-x) var(--navbar-margin-y);
+    margin: var(--navbar-margin-y) var(--navbar-margin-x);
     border-radius: 30px;
     width: calc(100% - 2*var(--navbar-margin-x));
     text-align: center;
@@ -73,7 +73,7 @@ body{
     transition: all 200ms;
     margin-left: 20px;
 }
-.btn:hoover {
+.btn:hover {
     background-color: var(--color-4);
     border-radius: 12px;
 }
@@ -109,4 +109,34 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.messages-wrapper{
+    position: absolute;
+    right:0px;
+    bottom:0px;
+    width: 350px;
+    height: 220px;
+    background-color: var(--color-3);
+    border-radius: 15px;
+    margin: var(--navbar-margin-y) var(--navbar-margin-x);
+}
+#Messages{
+    margin: var(--navbar-margin-y) var(--navbar-margin-x);
+    position:absolute;
+    overflow-y: scroll;
+    bottom: 25px;
+    height: calc(100% - 2*var(--navbar-margin-y) - 20px);
+    width: calc(100% - 2*var(--navbar-margin-x));
+}
+#messageInput{
+    border: 0px;
+    margin:calc(var(--navbar-margin-y)*0.6) var(--navbar-margin-x);
+    padding-left: 10px;
+    position:absolute;
+    bottom:0px;
+    background-color: var(--color-5);
+    width: calc(100% - 3*var(--navbar-margin-x));
+    border-radius: 15px;
+    line-height: 20px;
 }

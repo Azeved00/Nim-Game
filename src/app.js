@@ -1,41 +1,40 @@
 const stateId = "nim-state-cookie";
 const defaultState = "Logo";
-
-function showSection(elemId){
-    document.getElementById(getCookie(stateId)).style.display = 'none';
-    setCookie(stateId, elemId);
-
-    var e = document.getElementById(elemId);   
-    e.style.display = 'block';
-    
+const defaultConfig = {
+    coll : 5,
+    first: true,
+    ai   : true,
+    diff : 1,
 }
 
 function onLoad() {
 
     //setCookie(stateId, defaultState);
-    if(isNullOrEmpty(getCookie(stateId)))
+    if(isNOE(getCookie(stateId)))
         setCookie(stateId, defaultState);
     showSection(getCookie(stateId));
+
+    checkLogin();
 
     document.querySelectorAll('.navbar-container a').forEach((e) => {
         e.addEventListener("click", (e) => {
             //console.log(e.target.target);
-            if(!isNullOrEmpty(e.target.target))
-                showSection(e.target.target);
+            if(!isNOE(e.target.getAttribute('data-target')))
+                showSection(e.target.getAttribute('data-target'));
             else
                 showSection(defaultState);
         })
     });
+
+    getById('messageInput').addEventListener("keypress", (e) =>{
+        if (e.key === 'Enter') {
+            //debugger;
+            messageHandler(e.target.value);
+            e.target.value = "";
+        }
+    });
 }
 
-function logIn() {
-    //debugger;
-    var form = document.getElementById("loginForm");
-    if(form.style.display === "none")
-        form.style.display="inherit";
-    else
-        form.style.display="none";
-}
 
 
 
