@@ -1,13 +1,39 @@
 const stateId = "nim-state-cookie";
 const defaultState = "Logo";
-const defaultConfig = {
-    coll : 5,
-    first: true,
-    ai   : true,
-    diff : 1,
+
+
+// cheks if the message written is a command
+// if yes run the command
+// if not write it to the message prompt
+function messageHandler(v) { 
+    var cmd = v.split(" ");
+
+    switch (cmd[0]){
+        case "init":
+            writeMessage("Game Started!")
+            config.game();
+            break;
+        case "take" : 
+            var res = config.move(cmd[1],cmd[2]);
+            if(!res)
+                AddError("Move is Impossible");
+            else{
+                if(cmd[2] == "")
+                    writeMessage(`Player has taken all balls from ${cmd[1]} collumn.`);
+                else
+                    writeMessage(`Player has taken ${cmd[2]} balls from ${cmd[1]} collumn.`);
+                //writeMessage(config.nimSum());
+            }
+            break;
+        case "ai":
+            ai(config);
+            writeMessage(`Computer has taken ${res.otr} balls from ${res.pile} collumn.`);
+            break;
+        default: writeMessage(v);
+    }
 }
 
-function onLoad() {
+function main() {
 
     //setCookie(stateId, defaultState);
     if(isNOE(getCookie(stateId)))
@@ -26,6 +52,10 @@ function onLoad() {
         })
     });
 
+    getById('gameStart').addEventListener("click", (e) => {
+        config.game();
+    });
+
     getById('messageInput').addEventListener("keypress", (e) =>{
         if (e.key === 'Enter') {
             //debugger;
@@ -34,6 +64,8 @@ function onLoad() {
         }
     });
 }
+
+
 
 
 

@@ -7,12 +7,14 @@
 		
         <script src="src/helpers.js"></script>
         <script src="src/cookie.js"></script> 
-        <script src="src/messages.js"></script>
         <script src="src/login.js"></script>
+        <script src="src/ai.js"></script>
+        <script src="src/messages.js"></script>
+        <script src="src/board.js"></script>
         <script src="src/app.js"></script>  
 	</head>
 
-	<body onload="onLoad()">
+	<body onload="main()">
         <div class="navbar">
             <div class="navbar-container left">
                 <a  href="#" data-target="Logo"> 
@@ -28,12 +30,12 @@
                         <label for="user"> User </label>
                         <input id="user" type="text">
                         <label for="pass"> Password </label> 
-                        <input id="pass" type="text">
+                        <input id="pass" type="password">
                     </form>
                     <button id="loginBtn" class="btn" onclick="logIn()">Log In</button> 
                 </div>
                 <div id="logoutWrapper">
-                    <a id="user"> Demo </a>
+                    <a id="userLabel"> Demo </a>
                     <button id="logoutBtn" class="btn" onclick="logOut()">Log Out</button>
                 </div>
             </div>
@@ -50,8 +52,6 @@
         <div id="Commands" class="section"> 
             <h1> Commands Section</h1>
             <div>
-                <p>Edit configuration</p>
-                <p>Choose Opponent</p>
                 <form id="configForm" action="./app.js" method="post">
                     <div>
                         <label for="size"> Number of collumns</label>
@@ -67,21 +67,22 @@
                     </div>
                     <div>
                         <p>Select Ai Dificulty:</p>
-                        <input type="radio" value="1" name="dif"> <label>Level 1</label>
+                        <input type="radio" value="1" name="dif"><label>Level 1</label> </input>
                         <input type="radio" value="2" name="dif"> <label>Level 2</label>
                         <input type="radio" value="3" name="dif"> <label>Level 3</label>
                     </div>
                     <button type="submit" class="btn"> Change Configuration </button> 
                 </form>
                 <p>Start Game</p>
-                <button class="btn" type="submit"> Start Game!</button>
+                <button id="gameStart"class="btn" type="submit"> Start Game!</button>
                 <p>How to play</p>
                 <button class="btn">Give Up!</button>
             </div>
         </div>
         <div id="Play" class="section">
-            <h1>tabuleiro vai ser aqui</h1>
-            <div id="Board"></div>
+            <div id="Board">
+                
+            </div>
             <div class="messages-wrapper">
                 <div id="Messages">
                     <p>Welcome to Nim!</p>

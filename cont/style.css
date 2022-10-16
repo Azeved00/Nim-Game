@@ -17,6 +17,43 @@ body{
     background-color: var(--color-6);
     color: white;
 }
+
+.hovered-ball {
+    width: 4em;
+    height: 4em;
+    border-radius: 4em;
+    margin: 0 0.2em;
+    background: var(--color-6);
+    list-style-type: none;
+}
+.hovered-coll{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 75px;
+    border-radius: 30px;
+    margin: 20px 0;
+    background: var(--color-4)
+}
+.ball{
+    list-style-type: none;
+    width: 4em;
+    height: 4em;
+    border-radius: 4em;
+    background: var(--color-5);
+    margin: 0 0.2em;
+}
+.coll{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 75px;
+    border-radius: 30px;
+    margin: 20px 0;
+}
+
 .navbar {
     position: fixed;
     background-color: var(--color-5);
