@@ -5,12 +5,12 @@ let config = {
     playing : true,  // true if the human is playing
     ai      : true,  // se e contra o computador
     diff    : 2,     //dificuldade do ai
-    inGame  : false, //se esta em jogo 
+    inGame  : false, //se esta em jogo
 
     nimSum() {
         var sum = 0;
         for(var i = 0; i < this.colls; i++){
-            sum = sum ^ this.balls[i];   
+            sum = sum ^ this.balls[i];
         }
         return sum;
     },
@@ -22,7 +22,7 @@ let config = {
         var col = parseInt(a);
         if(isNaN(col)) return false;
         col-=1;
-        
+
         if(b === ""){
             this.balls[col] = 0;
         }
@@ -31,15 +31,15 @@ let config = {
             if(isNaN(col)) return false;
             this.balls[col]-=n;
             if(this.balls[col] < 0) this.balls[col] = 0;
-        } 
-    
+        }
+
         this.playing=!this.playing;
 
         writeMessage(`Taken ${n} balls from ${col+1} collumn;`);
         return true;
     },
 
-    draw() { 
+    draw() {
         var board = getById("Board");
         board.innerHTML = "";
 
@@ -98,28 +98,32 @@ let config = {
     },
     game() {
         this.inGame = true;
-        if(this.playing == false)
+        if(this.playing === false)
             ai(this);
         this.draw();
-        
+
         getById("Board").querySelectorAll("li").forEach((ball) => {
         ball.addEventListener("click", (e) => {
                 var otr = e.target.dataset.number,
                     coll = e.target.parentNode.dataset.number;
                 this.move(coll,otr);
                 this.game();
-            }); 
+            });
         });
-       
+
 
         if(this.finish()){
             if(this.playing){
-                modal("FinishMessage", "Computer Won!");
-                writeMessage("Computer Won!");
+                let res = "Computer Won!"
+                modal("FinishMessage", res);
+                writeMessage(res);
+                classTable.addEntry("demo", this.diff,res);
             }
             else{
-                modal("FinishMessage","You Won!");
-                writeMessage("You Won!");
+                let res ="You Won!"
+                modal("FinishMessage",res);
+                writeMessage(res);
+                classTable.addEntry("demo", this.diff,res);
             }
             this.reload();
             writeMessage("Play Again?");

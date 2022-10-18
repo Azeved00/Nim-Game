@@ -8,6 +8,11 @@ function getById(id){
 function createElem(tag){
     return document.createElement(tag);
 }
+function createElemT(tag,text){
+    let t = document.createElement(tag);
+    t.innerHTML=text;
+    return t;
+}
 
 function isInt(id) {
     return typeof(id) === 'number' &&
@@ -28,4 +33,3 @@ function triggerEvent(el, type) {
         el.fireEvent('on' + e.eventType, e);
     }
 }
-

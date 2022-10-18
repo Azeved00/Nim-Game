@@ -4,21 +4,22 @@
 		<title>Nim Game </title>
 		<meta charset=UTF-8>
 		<link rel="stylesheet" href="assets/style.css" type="text/css">
-		
+
         <script src="src/helpers.js"></script>
-        <script src="src/cookie.js"></script> 
+        <script src="src/cookie.js"></script>
         <script src="src/login.js"></script>
         <script src="src/ai.js"></script>
-        <script src="src/messages.js"></script>
+				<script src="src/messages.js"></script>
+        <script src="src/class.js"></script>
         <script src="src/board.js"></script>
         <script src="src/buttons.js"></script>
-        <script src="src/app.js"></script>  
+        <script src="src/app.js"></script>
 	</head>
 
 	<body onload="main()">
         <div class="navbar">
             <div class="navbar-container left">
-                <a  href="#" data-target="Logo"> 
+                <a  href="#" data-target="Logo">
                     <img src="assets/img/logo-white.png" alt="Home" class="navbar-logo">
                 </a>
             </div>
@@ -27,10 +28,10 @@
                     <form id="loginForm" style="display: none;">
                         <label for="user"> User </label>
                         <input id="user" type="text">
-                        <label for="pass"> Password </label> 
+                        <label for="pass"> Password </label>
                         <input id="pass" type="password">
                     </form>
-                    <button id="loginBtn" class="btn" onclick="logIn()">Log In</button> 
+                    <button id="loginBtn" class="btn" onclick="logIn()">Log In</button>
                 </div>
                 <div id="logoutWrapper">
                     <div id="userLabel" class="navbar-item"> Demo </div>
@@ -43,11 +44,11 @@
             <figure class="logoFigure">
                 <img alt="nimLogo" src="./assets/img/logo.png" class="center">
                 <figcaption>
-                    <button id="logoBtn" class="btn center" onclick='showSection("Play")'>Play Nim Now!</button>   
+                    <button id="logoBtn" class="btn center" onclick='showSection("Play")'>Play Nim Now!</button>
                 </figcaption>
             </figure>
         </div>
-        
+
         <div id="Play" class="section">
             <ul id="commandsTab">
                 <li id="playBtn">
@@ -71,7 +72,7 @@
                 </li>
             </ul>
             <div id="Board">
-                
+
             </div>
             <div id="MessagesWrapper">
                 <div id="Messages">
@@ -80,7 +81,7 @@
                 <input id="messageInput" type="text" placeholder="Write a message here">
             </div>
         </div>
-         
+
         <div id="Config" class="modal">
             <div class="modal-header">
                 <h1> Commands Section</h1>
@@ -113,38 +114,26 @@
                 <button type="button" onclick='changeConfigBtn()'>Change Configuration</button>
             </div>
         </div>
-        
+
         <div id="Class" class="modal">
             <div class="modal-header">
                 <h2>Classification Table</h2>
                 <button type="button" class="close-btn" onclick='modal("Class")'>X</button>
             </div>
             <div class="modal-body">
-                <table>
+                <table id="ClassTable">
                     <tr>
                         <th> User </th>
-                        <th> Classification</th>
-                    </tr>
-                    <tr>
-                        <th> HI </th>
-                        <th> over 9000 </th>
+                        <th> Opponent</th>
+												<th> Result</th>
                     </tr>
                 </table>
+								<div id="ClassResults">
+
+								</div>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick='modal("Class")'>Ok!</button>
-            </div>
-        </div>
-
-        <div id="FinishMessage" class="modal">
-            <div class="modal-header">
-                <h2>Game has ended</h2>
-                <button type="button" class="close-btn" onclick='modal("FinishMessage")'>X</button>
-            </div>
-            <div id="FinishMessageBody" class="modal-body"></div>    
-            <div class="modal-footer">
-                    <button type="button" onclick='restartBtn()'>Restart</button>
-                    <button type="button" onclick='closeBtn()'>Close</button>
             </div>
         </div>
 
@@ -157,12 +146,32 @@
                 <p> Write some rules here </p>
                 <p> ANd some other rules</p>
                 <p>and etc</p>
-            </div>    
+            </div>
             <div class="modal-footer">
                     <button type="button" onclick='modal("Rules")'>Close</button>
             </div>
         </div>
 
-   
+				<div id="StandardMessage" class="modal">
+            <div class="modal-header">
+                <h2>Message</h2>
+                <button type="button" class="close-btn" onclick='closeBtn()'>X</button>
+            </div>
+            <div id="StandardMessageBody" class="modal-body"></div>
+        </div>
+
+
+				<div id="FinishMessage" class="modal">
+            <div class="modal-header">
+                <h2>Game has ended</h2>
+                <button type="button" class="close-btn" onclick='closeBtn()'>X</button>
+            </div>
+            <div id="FinishMessageBody" class="modal-body"></div>
+            <div class="modal-footer">
+                    <button type="button" onclick='restartBtn()'>Restart</button>
+                    <button type="button" onclick='closeBtn()'>Close</button>
+            </div>
+        </div>
+
     </body>
 </html>

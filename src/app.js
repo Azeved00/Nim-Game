@@ -1,9 +1,7 @@
-const stateId = "nim-state-cookie";
-const defaultState = "Logo";
 // cheks if the message written is a command
 // if yes run the command
 // if not write it to the message prompt
-function messageHandler(v) { 
+function messageHandler(v) {
     var cmd = v.split(" ");
 
     switch (cmd[0]){
@@ -11,7 +9,7 @@ function messageHandler(v) {
             writeMessage("Game Started!")
             config.game();
             break;
-        case "take" : 
+        case "take" :
             var res = config.move(cmd[1],cmd[2]);
             if(!res)
                 AddError("Move is Impossible");
@@ -48,9 +46,3 @@ function main() {
         }
     });
 }
-
-
-
-
-
-

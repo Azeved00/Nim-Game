@@ -1,12 +1,26 @@
+const stateId = "nim-state-cookie";
+const defaultState = "Logo";
+var state = "";
+
 function showSection(elemId){
-    getById(getCookie(stateId)).style.display = 'none';
+    //var a = getCookie(stateId);
+    var curr = getById(state)
+    if(curr)
+      curr.style.display = 'none';
 
     if(isNOE(elemId))
         elemId=defaultState;
-    var e = getById(elemId);  
-    setCookie(stateId, elemId);
-    e.style.display = 'block';
-    
+
+    var e = getById(elemId);
+    if(e){
+      //setCookie(stateId, elemId);
+      state = elemId;
+      e.style.display = 'block';
+    }
+    else{
+      showSection(defaultState);
+    }
+
 }
 
 function modal(elemId, message){
@@ -15,9 +29,15 @@ function modal(elemId, message){
         var shadow= createElem("div");
         shadow.id="ModalShadow";
         shadow.addEventListener("click",() => {
-            modal(elemId);
+            if(elemId == "FinishMessage"){
+              closeBtn();
+            }
+            else {
+              modal(elemId);
+
+            }
         })
-        document.querySelector("body").appendChild(shadow);    
+        document.querySelector("body").appendChild(shadow);
         e.style.display = 'flex';
     }
     else{
@@ -27,24 +47,31 @@ function modal(elemId, message){
         e.style.display = '';
     }
 
-    
+
     if(elemId === "FinishMessage")
-       getById("FinishMessageBody").innerHTML=message; 
+       getById("FinishMessageBody").innerHTML=message;
+    if(elemId === "StandardMessage")
+       getById("StandardMessageBody").innerHTML=message;
 }
 function changeConfigBtn(){
     modal("Config");
     let form = getById("configForm");
+
+    if(parseInt(getById("size").value)<1)
+      modal("StandardMessage", "Invalid collumn number!");
+
     config.colls = getById("size").value;
     config.start = getById("first").checked;
     config.ai    = getById("bot").checked;
-    
+
     let rads = document.getElementsByName("dif"), i;
        for (i=0; i < rads.length; i++)
               if (rads[i].checked)
                       config.diff = rads[i].value;
 
     config.colls = parseInt(config.colls);
-    config.diff  = parseInt(config.diff); 
+    config.diff  = parseInt(config.diff);
+
 
     config.reload();
 
@@ -61,7 +88,7 @@ function playBtn(){
     config.game();
 }
 function giveUpBtn(){
-    getById("playBtn").style.display="block"; 
+    getById("playBtn").style.display="block";
     getById("configBtn").style.display="block";
     getById("giveUpBtn").style.display="none";
 
