@@ -1,10 +1,11 @@
 let config = {
-    colls: 5,
-    balls: [1,2,3,4,5] ,
-    player: true, // true if the human is playing
-    ai   : true, // se e contra o computador
-    diff : 3, //dificuldade do ai
-    play: false, //se esta em jogo 
+    colls   : 5,
+    balls   : [1,2,3,4,5] ,
+    start   : true,  //who starts the game (true if human)
+    playing : true,  // true if the human is playing
+    ai      : true,  // se e contra o computador
+    diff    : 2,     //dificuldade do ai
+    inGame  : false, //se esta em jogo 
 
     nimSum() {
         var sum = 0;
@@ -15,7 +16,7 @@ let config = {
     },
 
     move (a, b) {
-        if(!this.play)
+        if(!this.inGame)
             return false;
 
         var col = parseInt(a);
@@ -32,7 +33,7 @@ let config = {
             if(this.balls[col] < 0) this.balls[col] = 0;
         } 
     
-        this.player=!this.player;
+        this.playing=!this.playing;
 
         writeMessage(`Taken ${n} balls from ${col+1} collumn;`);
         return true;
@@ -79,14 +80,15 @@ let config = {
         return true;
     },
     reload(){
+        this.playing = this.start;
         for(let i = 0; i < this.colls;i++){
             this.balls[i] = i+1;
         }
     },
     giveUp(){
-        if(this.play){
+        if(this.inGame){
             getById("Board").innerHTML="";
-            this.play=false;
+            this.inGame=false;
             this.reload();
             writeMessage("You gave um on the game!");
         }
@@ -95,8 +97,8 @@ let config = {
         }
     },
     game() {
-        this.play = true;
-        if(this.player == false)
+        this.inGame = true;
+        if(this.playing == false)
             ai(this);
         this.draw();
         
@@ -111,7 +113,7 @@ let config = {
        
 
         if(this.finish()){
-            if(this.player){
+            if(this.playing){
                 modal("FinishMessage", "Computer Won!");
                 writeMessage("Computer Won!");
             }
