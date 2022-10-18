@@ -3,7 +3,7 @@
 	<head>
 		<title>Pagina Pessoal - Index </title>
 		<meta charset=UTF-8>
-		<link rel="stylesheet" href="cont/style.css" type="text/css">
+		<link rel="stylesheet" href="assets/style.css" type="text/css">
 		
         <script src="src/helpers.js"></script>
         <script src="src/cookie.js"></script> 
@@ -18,11 +18,8 @@
         <div class="navbar">
             <div class="navbar-container left">
                 <a  href="#" data-target="Logo"> 
-                    <img src="cont/img/logo-white.png" alt="Home" class="navbar-logo">
+                    <img src="assets/img/logo-white.png" alt="Home" class="navbar-logo">
                 </a>
-                <a href="#" data-target="Commands"> Commands </a>
-                <a href="#" data-target="Play" > Play </a>
-                <a href="#" data-target="Classification"> Classification </a>
             </div>
             <div class="navbar-container right">
                 <div id="loginWrapper">
@@ -35,7 +32,7 @@
                     <button id="loginBtn" class="btn" onclick="logIn()">Log In</button> 
                 </div>
                 <div id="logoutWrapper">
-                    <a id="userLabel"> Demo </a>
+                    <div id="userLabel" class="navbar-item"> Demo </div>
                     <button id="logoutBtn" class="btn" onclick="logOut()">Log Out</button>
                 </div>
             </div>
@@ -43,22 +40,59 @@
 
         <div id="Logo" class="section">
             <figure class="logoFigure">
-                <img alt="nimLogo" src="./cont/img/logo.png" class="center">
+                <img alt="nimLogo" src="./assets/img/logo.png" class="center">
                 <figcaption>
                     <button id="logoBtn" class="btn center" onclick='showSection("Play")'>Play Nim Now!</button>   
                 </figcaption>
             </figure>
         </div>
-        <div id="Commands" class="section"> 
-            <h1> Commands Section</h1>
-            <div>
+        
+        <div id="Play" class="section">
+            <ul id="commandsTab">
+                <li id="playBtn">
+                    <button type="button" onclick='playBtn()'>Play</button>
+                </li>
+                <li id="configBtn">
+                    <button type="button" onclick='modal("Config")'>Configuration</button>
+                </li>
+                <li id="giveUpBtn" style="display:none;">
+                    <button type="button" onclick='giveUpBtn()'>Give Up</button>
+                </li>
+                <hr>
+                <li>
+                    <button type="button" onclick='modal("Class")'>Classification</button>
+                </li>
+                <li>
+                    <button id="messageBtn" type="button" onclick='showMessages()'>Show Messages</button>
+                </li>
+                <li>
+                    <button type="button" onclick='modal("Rules")'>Rules</button>
+                </li>
+            </ul>
+            <div id="Board">
+                
+            </div>
+            <div id="MessagesWrapper">
+                <div id="Messages">
+                    <p>Welcome to Nim!</p>
+                </div>
+                <input id="messageInput" type="text" placeholder="Write a message here">
+            </div>
+        </div>
+         
+        <div id="Config" class="modal">
+            <div class="modal-header">
+                <h1> Commands Section</h1>
+                <button type="button" class="close-btn" onclick='modal("Config")'>x</button>
+            </div>
+            <div class="modal-body">
                 <form id="configForm" action="./app.js" method="post">
                     <div>
                         <label for="size"> Number of collumns</label>
                         <input id="size" type="number" value="5">
                     </div>
                     <div>
-                        <label for="first"> Play first? </label>
+                        <label for="first"> Play first?</label>
                         <input id="first" type="checkbox">
                     </div>
                     <div>
@@ -71,37 +105,63 @@
                         <input type="radio" value="2" name="dif"> <label>Level 2</label>
                         <input type="radio" value="3" name="dif"> <label>Level 3</label>
                     </div>
-                    <button type="submit" class="btn"> Change Configuration </button> 
                 </form>
-                <p>Start Game</p>
-                <button id="gameStart"class="btn" type="submit"> Start Game!</button>
-                <p>How to play</p>
-                <button class="btn">Give Up!</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick='modal("Config")'>Cancel</button>
+                <button type="button" onclick='modal("Config")'>Change Configuration</button>
             </div>
         </div>
-        <div id="Play" class="section">
-            <div id="Board">
-                
+        
+        <div id="Class" class="modal">
+            <div class="modal-header">
+                <h2>Classification Table</h2>
+                <button type="button" class="close-btn" onclick='modal("Class")'>X</button>
             </div>
-            <div class="messages-wrapper">
-                <div id="Messages">
-                    <p>Welcome to Nim!</p>
-                </div>
-                <input id="messageInput" type="text" placeholder="Write a message here">
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th> User </th>
+                        <th> Classification</th>
+                    </tr>
+                    <tr>
+                        <th> HI </th>
+                        <th> over 9000 </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick='modal("Class")'>Ok!</button>
             </div>
         </div>
-        <div id="Classification" class="section">
-            <h1> Classification </h1>
-            <table>
-                <tr>
-                    <th> User </th>
-                    <th> Classification</th>
-                </tr>
-                <tr>
-                    <th> HI </th>
-                    <th> over 9000 </th>
-                </tr>
-            </table>
+
+        <div id="FinishMessage" class="modal">
+            <div class="modal-header">
+                <h2>Game has ended</h2>
+                <button type="button" class="close-btn" onclick='modal("FinishMessage")'>X</button>
+            </div>
+            <div id="FinishMessageBody" class="modal-body"></div>    
+            <div class="modal-footer">
+                    <button type="button" onclick='restartBtn()'>Restart</button>
+                    <button type="button" onclick='closeBtn()'>Close</button>
+            </div>
         </div>
+
+        <div id="Rules" class="modal">
+            <div class="modal-header">
+                <h2>Rules</h2>
+                <button type="button" class="close-btn" onclick='modal("Rules")'>X</button>
+            </div>
+            <div class="modal-body">
+                <p> Write some rules here </p>
+                <p> ANd some other rules</p>
+                <p>and etc</p>
+            </div>    
+            <div class="modal-footer">
+                    <button type="button" onclick='modal("Rules")'>Close</button>
+            </div>
+        </div>
+
+   
     </body>
 </html>

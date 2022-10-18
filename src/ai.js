@@ -12,34 +12,30 @@ function ai(b){
     b.move(mv.pile, mv.otr);
 }
 
-function aiLvl3(b)
-{
+function aiLvl3(b){
     let nimSum = b.nimSum(),
         piles = b.balls,
         move = { pile: -1, otr: -1};
  
-    if (nimSum != 0)
-    {
-        for (let i = 0; i < b.colls; i++)
-        {
-            if ((piles[i] ^ nimSum) < piles[i])
-            {
+    if (nimSum != 0){
+        for (let i = 0; i < b.colls; i++){
+            if ((piles[i] ^ nimSum) < piles[i]){
                 move.pile = i;
                 move.otr = piles[i] - (piles[i] ^ nimSum);
                 break;
             }
         }
     } 
-    else
-    {
+    else{
         let non_zero_indices = new Array(b.colls);
         var count= 0;
  
         for (let i=0; i<b.colls; i++)
             if (piles[i] > 0)
                 non_zero_indices [count++] = i;
- 
-        move.pile = Math.floor(Math.random() * (count));
+
+        //debugger;
+        move.pile = non_zero_indices[Math.floor(Math.random() * (count))];
         move.otr = 1 + Math.floor(Math.random() * (piles[move.pile]));
     
     }

@@ -34,7 +34,7 @@ let config = {
     
         this.player=!this.player;
 
-        writeMessage(`Taken ${n} balls from ${col} collumn;`);
+        writeMessage(`Taken ${n} balls from ${col+1} collumn;`);
         return true;
     },
 
@@ -49,6 +49,21 @@ let config = {
             for(var j = 0; j < this.balls[i]; j++){
                 var ball = createElem("li");
                 ball.className="ball";
+                ball.addEventListener("mouseover", (e) => {
+                    e.target.className = "hovered-ball";
+                    var prev = e.target.previousSibling;
+                    if(prev)
+                        triggerEvent(prev, "mouseover");
+                    e.target.parentNode.className="hovered-coll";
+                });
+                ball.addEventListener("mouseout", (e) => {
+                    e.target.className = "ball";
+                    var prev = e.target.previousSibling;
+                    if(prev)
+                        triggerEvent(prev, "mouseout");
+                    e.target.parentNode.className="coll";
+                });
+
                 ball.dataset.number=j+1;
                 coll.appendChild(ball);
             }
@@ -68,6 +83,17 @@ let config = {
             this.balls[i] = i+1;
         }
     },
+    giveUp(){
+        if(this.play){
+            getById("Board").innerHTML="";
+            this.play=false;
+            this.reload();
+            writeMessage("You gave um on the game!");
+        }
+        else{
+            writeMessage("Game not in progress!");
+        }
+    },
     game() {
         this.play = true;
         if(this.player == false)
@@ -75,21 +101,7 @@ let config = {
         this.draw();
         
         getById("Board").querySelectorAll("li").forEach((ball) => {
-            ball.addEventListener("mouseover", (e) => {
-                e.target.className = "hovered-ball";
-                var prev = e.target.previousSibling;
-                if(prev)
-                    triggerEvent(prev, "mouseover");
-                e.target.parentNode.className="hovered-coll";
-            });
-            ball.addEventListener("mouseout", (e) => {
-                e.target.className = "ball";
-                var prev = e.target.previousSibling;
-                if(prev)
-                    triggerEvent(prev, "mouseout");
-                e.target.parentNode.className="coll";
-            });
-            ball.addEventListener("click", (e) => {
+        ball.addEventListener("click", (e) => {
                 var otr = e.target.dataset.number,
                     coll = e.target.parentNode.dataset.number;
                 this.move(coll,otr);
@@ -99,10 +111,14 @@ let config = {
        
 
         if(this.finish()){
-            if(this.player)
+            if(this.player){
+                modal("FinishMessage", "Computer Won!");
                 writeMessage("Computer Won!");
-            else
+            }
+            else{
+                modal("FinishMessage","You Won!");
                 writeMessage("You Won!");
+            }
             this.reload();
             writeMessage("Play Again?");
         }

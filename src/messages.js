@@ -21,3 +21,16 @@ function writeMessage(v){
     
 }
 
+function showMessages() {
+    var msgs = getById('MessagesWrapper');
+    var btn = getById('messageBtn');
+    if(msgs.style.display!=='initial'){
+        msgs.style.display = 'initial';
+        btn.innerHTML='Hide Messages';
+    }
+    else{
+        btn.innerHTML='Show Messages';
+        msgs.style.display = '';
+    }
+}
+

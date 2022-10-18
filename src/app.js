@@ -1,7 +1,28 @@
 const stateId = "nim-state-cookie";
 const defaultState = "Logo";
 
+function restartBtn(){
+    modal("FinishMessage");
+    config.game();
+}
+function playBtn(){
+    getById("playBtn").style.display="none";
+    getById("giveUpBtn").style.display="block";
+    getById("configBtn").style.display="none";
 
+    config.game();
+}
+function giveUpBtn(){
+    getById("playBtn").style.display="block"; 
+    getById("configBtn").style.display="block";
+    getById("giveUpBtn").style.display="none";
+
+    config.giveUp();
+}
+function closeBtn(){
+    modal("FinishMessage");
+    giveUpBtn();
+}
 // cheks if the message written is a command
 // if yes run the command
 // if not write it to the message prompt
@@ -41,20 +62,6 @@ function main() {
     showSection(getCookie(stateId));
 
     checkLogin();
-
-    document.querySelectorAll('.navbar-container a').forEach((e) => {
-        e.addEventListener("click", (e) => {
-            //console.log(e.target.target);
-            if(!isNOE(e.target.getAttribute('data-target')))
-                showSection(e.target.getAttribute('data-target'));
-            else
-                showSection(defaultState);
-        })
-    });
-
-    getById('gameStart').addEventListener("click", (e) => {
-        config.game();
-    });
 
     getById('messageInput').addEventListener("keypress", (e) =>{
         if (e.key === 'Enter') {
