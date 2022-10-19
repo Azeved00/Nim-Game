@@ -6,6 +6,7 @@ let config = {
     ai      : true,  // se e contra o computador
     diff    : 2,     //dificuldade do ai
     inGame  : false, //se esta em jogo
+    size : "3em",
 
     nimSum() {
         var sum = 0;
@@ -41,28 +42,27 @@ let config = {
 
     draw() {
         var board = getById("Board");
-        board.innerHTML = "";
-
+        board.innerHTML = "";        
         for(var i = 0; i < this.colls; i++){
             var coll = createElem("ul");
             coll.className="coll";
+            coll.style.setProperty('--ball-size', this.size);
             coll.dataset.number=i+1;
             for(var j = 0; j < this.balls[i]; j++){
                 var ball = createElem("li");
                 ball.className="ball";
+                ball.style.setProperty('--ball-size', this.size);
                 ball.addEventListener("mouseover", (e) => {
                     e.target.className = "hovered-ball";
                     var prev = e.target.previousSibling;
                     if(prev)
                         triggerEvent(prev, "mouseover");
-                    e.target.parentNode.className="hovered-coll";
                 });
                 ball.addEventListener("mouseout", (e) => {
                     e.target.className = "ball";
                     var prev = e.target.previousSibling;
                     if(prev)
                         triggerEvent(prev, "mouseout");
-                    e.target.parentNode.className="coll";
                 });
 
                 ball.dataset.number=j+1;
@@ -84,6 +84,9 @@ let config = {
         for(let i = 0; i < this.colls;i++){
             this.balls[i] = i+1;
         }
+
+        this.size = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.colls + '*2*0.2em - 3em)/' + this.colls + ')';
+
     },
     giveUp(){
         if(this.inGame){
@@ -97,8 +100,12 @@ let config = {
         }
     },
     game() {
-        this.inGame = true;
-        if(this.playing === false)
+        if(!this.inGame){
+            this.reload();
+            this.inGame = true;
+        }
+        
+        if(this.playing === false)            
             ai(this);
         this.draw();
 

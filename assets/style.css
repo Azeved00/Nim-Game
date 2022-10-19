@@ -92,28 +92,21 @@ body{
     background: var(--color-6-opac);
 }
 .hovered-ball {
-    width: var(--ball-size);
+    aspect-ratio: 1 / 1;
     height: var(--ball-size);
     border-radius: var(--ball-size);
     margin: 0 var(--ball-margin);
     background: white;
     list-style-type: none;
 }
-.hovered-coll{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(var(--ball-size) + 2*var(--ball-margin));
-    border-radius: 30px;
-    margin: 20px 0;
-}
+
 .ball{
     list-style-type: none;
-    width: var(--ball-size);
     height: var(--ball-size);
+    aspect-ratio: 1 / 1;
     border-radius: var(--ball-size);
     background: var(--color-5);
-    margin: 0 var(--ball-margin);
+    margin: var(--ball-margin);
 }
 .coll{
     display: flex;
@@ -121,7 +114,7 @@ body{
     justify-content: center;
     height: calc(var(--ball-size) + 2*var(--ball-margin));
     border-radius: 30px;
-    margin: 20px 0;
+    /*margin: 20px 0;*/
 }
 
 .navbar {
