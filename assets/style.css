@@ -23,6 +23,11 @@ body{
     background-color: var(--color-6);
     color: white;
 }
+#errorText{
+    color: red;
+    text-align: center;
+}
+
 .modal-header{
     display: flex;
     width:100%;
@@ -73,6 +78,7 @@ body{
     background: var(--color-4);
     padding-top: 5px;
     padding-bottom: 5px;
+    padding-right: 5px;
     border-radius:0px 15px 15px 0px;
     align-content:center;
     list-style-type:none;

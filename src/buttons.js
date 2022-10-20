@@ -1,6 +1,6 @@
 const stateId = "nim-state-cookie";
 const defaultState = "Logo";
-var state = "";
+var state = "Logo";
 
 function showSection(elemId){
     //var a = getCookie(stateId);
@@ -54,12 +54,16 @@ function modal(elemId, message){
        getById("StandardMessageBody").innerHTML=message;
 }
 function changeConfigBtn(){
-    modal("Config");
     let form = getById("configForm");
 
-    if(parseInt(getById("size").value)<1)
-      modal("StandardMessage", "Invalid collumn number!");
+    if(parseInt(getById("size").value)<1){
+        var errors = getById("errorText");
+        errors.innerHTML ="";
+        errors.appendChild(createElemT("p","Invalid Collumn Number"));
+        return;
+    }
 
+    modal("Config");
     config.colls = getById("size").value;
     config.start = getById("first").checked;
     config.ai    = getById("bot").checked;
@@ -95,6 +99,10 @@ function giveUpBtn(){
     config.giveUp();
 }
 function closeBtn(){
+    getById("playBtn").style.display="block";
+    getById("configBtn").style.display="block";
+    getById("giveUpBtn").style.display="none";
+
     modal("FinishMessage");
-    giveUpBtn();
+    config.reload();
 }

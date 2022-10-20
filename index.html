@@ -9,7 +9,7 @@
         <script src="src/cookie.js"></script>
         <script src="src/login.js"></script>
         <script src="src/ai.js"></script>
-				<script src="src/messages.js"></script>
+		<script src="src/messages.js"></script>
         <script src="src/class.js"></script>
         <script src="src/board.js"></script>
         <script src="src/buttons.js"></script>
@@ -107,6 +107,7 @@
                         <input type="radio" value="2" name="dif"> <label>Level 2</label>
                         <input type="radio" value="3" name="dif"> <label>Level 3</label>
                     </div>
+                    <div id="errorText"></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -150,28 +151,18 @@
             <div class="modal-footer">
                     <button type="button" onclick='modal("Rules")'>Close</button>
             </div>
-        </div>
+		</div>
 
-				<div id="StandardMessage" class="modal">
-            <div class="modal-header">
-                <h2>Message</h2>
-                <button type="button" class="close-btn" onclick='closeBtn()'>X</button>
-            </div>
-            <div id="StandardMessageBody" class="modal-body"></div>
-        </div>
-
-
-				<div id="FinishMessage" class="modal">
-            <div class="modal-header">
-                <h2>Game has ended</h2>
-                <button type="button" class="close-btn" onclick='closeBtn()'>X</button>
-            </div>
-            <div id="FinishMessageBody" class="modal-body"></div>
-            <div class="modal-footer">
+        <div id="FinishMessage" class="modal">
+                <div class="modal-header">
+                    <h2>Game has ended</h2>
+                    <button type="button" class="close-btn" onclick='closeBtn()'>X</button>
+                </div>
+                <div id="FinishMessageBody" class="modal-body"></div>
+                <div class="modal-footer">
                     <button type="button" onclick='restartBtn()'>Restart</button>
                     <button type="button" onclick='closeBtn()'>Close</button>
-            </div>
+                </div>
         </div>
-
     </body>
 </html>

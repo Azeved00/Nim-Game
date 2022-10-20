@@ -93,6 +93,8 @@ let config = {
             getById("Board").innerHTML="";
             this.inGame=false;
             this.reload();
+            modal("FinishMessage", "You Gave up!");
+            classTable.addEntry("demo", this.ai, this.diff, this.false);
             writeMessage("You gave um on the game!");
         }
         else{
@@ -124,13 +126,13 @@ let config = {
                 let res = "Computer Won!"
                 modal("FinishMessage", res);
                 writeMessage(res);
-                classTable.addEntry("demo", this.diff,res);
+                classTable.addEntry("demo", this.ai, this.diff, this.false);
             }
             else{
                 let res ="You Won!"
                 modal("FinishMessage",res);
                 writeMessage(res);
-                classTable.addEntry("demo", this.diff,res);
+                classTable.addEntry("demo",this.ai ,this.diff,true);
             }
             this.reload();
             writeMessage("Play Again?");
