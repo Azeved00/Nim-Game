@@ -9,47 +9,48 @@ var classTable = {
 
   addEntry(usr, ai ,dific, res) {
     var entry = createElem("tr");
-    entry.appendChild(createElemT("th",usr));
+    entry.appendChild(createElemT("td",usr));
     this.total++;
     if(ai){
-        entry.appendChild(createElemT("th","Vs. Ai"));
+        entry.appendChild(createElemT("td","Vs. Ai"));
         this.vsAi++;
         if(dific == 1){
-            entry.appendChild(createElemT("th","Easy"));
+            entry.appendChild(createElemT("td","Easy"));
             this.vsAi1++;
         }
         else if(dific == 2){
-            entry.appendChild(createElemT("th","Medium"));
+            entry.appendChild(createElemT("td","Medium"));
             this.vsAi2;
         }
         else if(dific == 3){
-            entry.appendChild(createElemT("th","Hard"));
+            entry.appendChild(createElemT("td","Hard"));
             this.vsAi3;
         }
     }
     else{
-        entry.appendChild(createElemT("th","Vs Player"));
-        entry.appendChild(createElemT("th",""));
+        entry.appendChild(createElemT("td","Vs Player"));
+        entry.appendChild(createElemT("td",""));
     }
 
     if(res){
-        entry.appendChild(createElemT("th","You Won!"));
+        entry.appendChild(createElemT("td","You Won!"));
         this.won++;
     }
     else{
-        entry.appendChild(createElemT("th","You Lost!"));
+        entry.appendChild(createElemT("td","You Lost!"));
     }
 
-    getById("ClassTable").appendChild(entry);
+    getById("ClassTable").getElementsByTagName("tbody")[0].appendChild(entry);
     
 
     var totals = getById("ClassResults");
     totals.innerHTML="";
-    totals.appendChild(createElemT("div", `Total: ${this.total}`));
-    totals.appendChild(createElemT("div", `Won: ${this.won}`));
-    totals.appendChild(createElemT("div", `VS AI: ${this.vsAi}`));
-    totals.appendChild(createElemT("div", `Easy: ${this.vsAi1}`));
-    totals.appendChild(createElemT("div", `Medium: ${this.vsAi2}`));
-    totals.appendChild(createElemT("div", `Hard: ${this.vsAi3}`));
+    totals.appendChild(createElemT("span", `Total: ${this.total}`));
+    totals.appendChild(createElemT("span", `Won: ${this.won}`));
+    totals.appendChild(createElem("hr"));
+    totals.appendChild(createElemT("span", `VS AI: ${this.vsAi}`));
+    totals.appendChild(createElemT("span", `Easy: ${this.vsAi1}`));
+    totals.appendChild(createElemT("span", `Medium: ${this.vsAi2}`));
+    totals.appendChild(createElemT("span", `Hard: ${this.vsAi3}`));
   }
 }
