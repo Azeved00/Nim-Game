@@ -1,3 +1,8 @@
+@font-face {
+  font-family: SpaceMono;
+  src: url("../assets/fonts/SpaceMono-Bold.ttf");
+}
+
 *{
     padding: 0px;
     margin: 0px;
@@ -18,10 +23,17 @@
     --ball-margin: 0.2em;
 
     --modal-br: 15px;
+    font-family: SpaceMono;
 }
+
+
 body{
     background-color: var(--color-6);
     color: white;
+}
+#Rules p {
+    font-size: 1.5em;
+    padding: 0.5em 0;
 }
 
 #ClassTable {
@@ -115,7 +127,14 @@ body{
 }
 
 #commandsTab li{
-    margin: 5px auto 5px auto;
+    margin: 0.3em auto 0.3em auto;
+}
+#commandsTab hr{
+    margin: 0.3em 0;
+    width: 100%;
+}
+#commandsTab li button{
+    padding: 12px;
 }
 #ModalShadow{
     display: block;
@@ -216,7 +235,7 @@ body{
     transition: all 200ms;
     margin-left: 20px;
 }
-.btn:hover {
+.btn:hover, button:hover {
     background-color: var(--color-4);
     border-radius: 12px;
 }
@@ -227,6 +246,9 @@ body{
 #loginForm input {
     height: 20px;
     margin: auto;
+}
+#loginForm label {
+    padding: 5px;
 }
 .center {
     display: block;

@@ -129,7 +129,7 @@ let config = {
                 classTable.addEntry("demo", this.ai, this.diff, this.false);
             }
             else{
-                let res ="You Won!"
+                let res ="Congratulations, You won the game!"
                 modal("FinishMessage",res);
                 writeMessage(res);
                 classTable.addEntry("demo",this.ai ,this.diff,true);
