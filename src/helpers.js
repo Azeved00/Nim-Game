@@ -1,26 +1,24 @@
-function isNOE (a) {
+
+export function isNOE (a) {
     return !a;
 }
 
-function getById(id){
+export function getById(id){
     return document.getElementById(id);
 }
-function createElem(tag){
-    return document.createElement(tag);
-}
-function createElemT(tag,text){
+export function createElem(tag,text=""){
     let t = document.createElement(tag);
     t.innerHTML=text;
     return t;
 }
 
-function isInt(id) {
+export function isInt(id) {
     return typeof(id) === 'number' &&
             isFinite(id) &&
             Math.round(id) === id;
 }
 
-function triggerEvent(el, type) {
+export function triggerEvent(el, type) {
     // IE9+ and other modern browsers
     if ('createEvent' in document) {
         var e = document.createEvent('HTMLEvents');
@@ -33,3 +31,4 @@ function triggerEvent(el, type) {
         el.fireEvent('on' + e.eventType, e);
     }
 }
+

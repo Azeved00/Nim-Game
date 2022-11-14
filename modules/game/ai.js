@@ -1,4 +1,6 @@
-function ai(b){
+
+
+export function ai(b){
     var mv = {pile: -1, otr: -1};
     if(b.nimSum() == 0){
         mv = randomMv(b);

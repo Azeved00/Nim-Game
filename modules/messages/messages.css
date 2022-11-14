@@ -1,0 +1,36 @@
+#errorText{
+    color: red;
+    text-align: center;
+}
+#MessagesWrapper{
+    display: none;
+    position: absolute;
+    right:0px;
+    bottom:0px;
+    width: 350px;
+    height: 220px;
+    background-color: var(--color-3);
+    border-radius: 15px;
+    margin: var(--navbar-margin-y) var(--navbar-margin-x);
+}
+
+#Messages{
+    margin: var(--navbar-margin-y) var(--navbar-margin-x);
+    position:absolute;
+    overflow-y: scroll;
+    bottom: 25px;
+    height: calc(100% - 2*var(--navbar-margin-y) - 20px);
+    width: calc(100% - 2*var(--navbar-margin-x));
+}
+
+#messageInput{
+    border: 0px;
+    margin:calc(var(--navbar-margin-y)*0.6) var(--navbar-margin-x);
+    padding-left: 10px;
+    position:absolute;
+    bottom:0px;
+    background-color: var(--color-5);
+    width: calc(100% - 3*var(--navbar-margin-x));
+    border-radius: 15px;
+    line-height: 20px;
+}

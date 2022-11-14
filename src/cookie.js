@@ -1,4 +1,4 @@
-function getCookie(cname) {
+export function get(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -14,7 +14,7 @@ function getCookie(cname) {
     return "";
 }
 
-function setCookie(cname, cvalue) {
+export function setCookie(cname, cvalue) {
     const d = new Date();
     d.setTime(d.getTime() + (5*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();

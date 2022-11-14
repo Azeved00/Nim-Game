@@ -2,21 +2,13 @@
 <html lang="en">
 	<head>
 		<title>Nim Game </title>
+        <link rel="shortcut icon" href="/assets/favicon.ico" />
 		<meta charset=UTF-8>
 		<link rel="stylesheet" href="assets/style.css" type="text/css">
-
-        <script src="src/helpers.js"></script>
-        <script src="src/cookie.js"></script>
-        <script src="src/login.js"></script>
-        <script src="src/ai.js"></script>
-		<script src="src/messages.js"></script>
-        <script src="src/class.js"></script>
-        <script src="src/board.js"></script>
-        <script src="src/buttons.js"></script>
-        <script src="src/app.js"></script>
+        <script type="module" src="./app.js"></script>
 	</head>
 
-	<body onload="main()">
+	<body>
         <div class="navbar">
             <div class="navbar-container left">
                 <a  href="#" data-target="Logo">
@@ -44,31 +36,31 @@
             <figure class="logoFigure">
                 <img alt="nimLogo" src="./assets/img/logo.png" class="center">
                 <figcaption>
-                    <button id="logoBtn" class="btn center" onclick='showSection("Play")'>Play Nim Now!</button>
+                    <button id="logoBtn" class="btn center">Play Nim Now!</button>
                 </figcaption>
             </figure>
         </div>
 
         <div id="Play" class="section">
             <ul id="commandsTab">
-                <li id="playBtn">
-                    <button type="button" onclick='playBtn()'>Play</button>
+                <li id="playBtnWrapper">
+                    <button id="playBtn" type="button">Play</button>
                 </li>
-                <li id="configBtn">
-                    <button type="button" onclick='modal("Config")'>Configuration</button>
+                <li id="configBtnWrapper">
+                    <button id="configBtn" type="button">Configuration</button>
                 </li>
-                <li id="giveUpBtn" style="display:none;">
-                    <button type="button" onclick='giveUpBtn()'>Give Up</button>
+                <li id="giveUpBtnWrapper" style="display:none;">
+                    <button id="giveUpBtn" type="button">Give Up</button>
                 </li>
-                <hr>
+                <li class="line"></li>
                 <li>
-                    <button type="button" onclick='modal("Class")'>Classification</button>
-                </li>
-                <li>
-                    <button id="messageBtn" type="button" onclick='showMessages()'>Show Messages</button>
+                    <button id="classBtn" type="button">Classification</button>
                 </li>
                 <li>
-                    <button type="button" onclick='modal("Rules")'>Rules</button>
+                    <button id="messagesBtn" type="button" data-toggle="false">Show Messages</button>
+                </li>
+                <li>
+                    <button id="rulesBtn" type="button">Rules</button>
                 </li>
             </ul>
             <div id="Board">

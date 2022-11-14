@@ -1,4 +1,6 @@
-let config = {
+import ai from ./ai.js
+
+export let config = {
     colls   : 5,
     balls   : [1,2,3,4,5] ,
     start   : true,  //who starts the game (true if human)
