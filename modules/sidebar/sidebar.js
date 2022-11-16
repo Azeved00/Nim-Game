@@ -1,5 +1,7 @@
 import * as Utils from "/src/helpers.js"
 import { toggleDisplay as toggleMessages } from "/modules/messages/messages.js"
+import { modal } from "/src/modal.js"
+
 
 function restartBtn(){
     modal("FinishMessage");
@@ -34,16 +36,11 @@ var ran = true;
 if(ran){
     Utils.getById("playBtn").onclick = playBtn; 
     Utils.getById("giveUpBtn").onclick = giveUpBtn; 
-    //Utils.getById("configBtn").onclick = modal('config'); 
-    //Utils.getById("classBtn").onclick = modal('class'); 
+    Utils.getById("configBtn").onclick = () => {modal('Config')}; 
+    Utils.getById("classBtn").onclick = () => {modal('Class')}; 
     Utils.getById("messagesBtn").onclick = msgBtn; 
-    //Utils.getById("rulesBtn").onclick = modal('rules'); 
+    Utils.getById("rulesBtn").onclick = () => {modal('Rules')}; 
 
-    
-    // add messages.css to dom
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';           
-    link.href = '/modules/sidebar/sidebar.css';                                                        
-    document.getElementsByTagName('HEAD')[0].appendChild(link);
+    //add the stylesheet to dom
+    Utils.addStyleSheet('/modules/sidebar/sidebar.css');
 }

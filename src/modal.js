@@ -11,6 +11,7 @@ function closeBtn(){
 
 export function modal(elemId, message = ""){
     var e = Utils.getById(elemId);
+
     if(e.style.display !== 'flex'){
         var shadow= Utils.createElem("div");
         shadow.id="ModalShadow";
