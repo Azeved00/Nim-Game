@@ -21,14 +21,24 @@ export function isInt(id) {
 export function triggerEvent(el, type) {
     // IE9+ and other modern browsers
     if ('createEvent' in document) {
-        var e = document.createEvent('HTMLEvents');
+        let e = document.createEvent('HTMLEvents');
         e.initEvent(type, false, true);
         el.dispatchEvent(e);
     } else {
         // IE8
-        var e = document.createEventObject();
+        let e = document.createEventObject();
         e.eventType = type;
         el.fireEvent('on' + e.eventType, e);
     }
 }
 
+export function addStyleSheet(path){
+    // add messages.css to dom
+    let link = document.createElement('link');
+    
+    link.rel = 'stylesheet';
+    link.type = 'text/css';           
+    link.href = path;
+
+    document.getElementsByTagName('HEAD')[0].appendChild(link);
+}
