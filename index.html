@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<title>Nim Game </title>
-	    <link rel="shortcut icon" href="/assets/favicon.ico" />	
+	    <link rel="shortcut icon" href="/assets/favicon.ico">	
         <meta charset=UTF-8>
 
         <!-- Get Stylesheets-->
@@ -31,7 +31,7 @@
         <script src="modules/sidebar/sidebar.js"></script>
 	</head>
 
-	<body onload="main()">
+	<body>
         <div class="navbar">
             <div class="navbar-container left">
                 <a  href="#" data-target="Logo">
@@ -75,7 +75,7 @@
                 <li id="giveUpBtn" style="display:none;">
                     <button type="button" onclick='giveUpBtn()'>Give Up</button>
                 </li>
-                <hr>
+                <li class="break"></li>
                 <li>
                     <button type="button" onclick='modal("Class")'>Classification</button>
                 </li>
@@ -118,9 +118,10 @@
                     </div>
                     <div>
                         <p>Select Ai Dificulty:</p>
-                        <input type="radio" value="1" name="dif"><label>Level 1</label> </input>
-                        <input type="radio" value="2" name="dif"> <label>Level 2</label>
-                        <input type="radio" value="3" name="dif"> <label>Level 3</label>
+                        
+                        <label><input type="radio" value="1" name="dif">Level 1</label>
+                        <label><input type="radio" value="2" name="dif">Level 2</label>
+                        <label><input type="radio" value="3" name="dif">Level 3</label>
                     </div>
                     <div id="errorText"></div>
                 </form>
