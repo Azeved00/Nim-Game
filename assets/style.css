@@ -36,7 +36,6 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
-
 .left {
     left: 0px;
 }
@@ -138,4 +137,5 @@ body{
     background-color: var(--color-4);
     border-radius: 12px;
 }
+
 
