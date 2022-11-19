@@ -2,18 +2,34 @@
 <html lang="en">
 	<head>
 		<title>Nim Game </title>
-		<meta charset=UTF-8>
-		<link rel="stylesheet" href="assets/style.css" type="text/css">
+	    <link rel="shortcut icon" href="/assets/favicon.ico" />	
+        <meta charset=UTF-8>
 
+        <!-- Get Stylesheets-->
+        <!-- Base Stylesheet-->
+        <link rel="stylesheet" href="assets/style.css" type="text/css">
+        <!-- modules stylesheet -->
+        <link rel="stylesheet" href="modules/navbar/navbar.css">
+        <link rel="stylesheet" href="modules/game/game.css">
+        <link rel="stylesheet" href="modules/classification/class.css">
+        <link rel="stylesheet" href="modules/messages/messages.css">
+        <link rel="stylesheet" href="modules/sidebar/sidebar.css">
+
+        <!-- Get all the Script files-->
+        <!-- base files in src/-->
         <script src="src/helpers.js"></script>
         <script src="src/cookie.js"></script>
-        <script src="src/login.js"></script>
-        <script src="src/ai.js"></script>
-		<script src="src/messages.js"></script>
-        <script src="src/class.js"></script>
-        <script src="src/board.js"></script>
-        <script src="src/buttons.js"></script>
         <script src="src/app.js"></script>
+        <script src="src/modals.js"><script>
+        <!-- modules files from modules/ -->
+
+        <script src="modules/navbar/login.js"></script>
+        <script src="modules/game/ai.js"></script>
+		<script src="modules/messages/messages.js"></script>
+        <script src="modules/classification/class.js"></script>
+        <script src="modules/game/board.js"></script>
+        <script src="modules/sidebar/buttons.js"></script>
+
 	</head>
 
 	<body onload="main()">

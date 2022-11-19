@@ -1,0 +1,26 @@
+#commandsTab {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translate(0,-50%);
+    background: var(--color-4);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    border-radius:0px 15px 15px 0px;
+    align-content:center;
+    list-style-type:none;
+}
+
+#commandsTab li{
+    margin: 0.3em auto 0.3em auto;
+}
+#commandsTab hr{
+    margin: 0.3em 0;
+    width: 100%;
+}
+#commandsTab li button{
+    padding: 12px;
+}

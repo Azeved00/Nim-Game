@@ -1,0 +1,26 @@
+.hovered-ball {
+    aspect-ratio: 1 / 1;
+    height: var(--ball-size);
+    border-radius: var(--ball-size);
+    margin: 0 var(--ball-margin);
+    background: white;
+    list-style-type: none;
+}
+
+.ball{
+    list-style-type: none;
+    height: var(--ball-size);
+    aspect-ratio: 1 / 1;
+    border-radius: var(--ball-size);
+    background: var(--color-5);
+    margin: var(--ball-margin);
+}
+.coll{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--ball-size) + 2*var(--ball-margin));
+    border-radius: 30px;
+    /*margin: 20px 0;*/
+}
+
