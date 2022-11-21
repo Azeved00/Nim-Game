@@ -17,26 +17,28 @@
 
         <!-- Get all the Script files-->
         <!-- base files in src/-->
-        <script src="src/helpers.js"></script>
-        <script src="src/cookie.js"></script>
-        <script src="src/app.js"></script>
-        <script src="src/modals.js"></script>
+        <script defer src="src/helpers.js"></script>
+        <script defer src="src/cookie.js"></script>
+        <script defer src="src/modals.js"></script>
+        <script defer src="src/section.js"></script>
+        <script defer src="src/app.js"></script>
         <!-- modules files from modules/ -->
 
-        <script src="modules/navbar/login.js"></script>
-        <script src="modules/game/ai.js"></script>
-		<script src="modules/messages/messages.js"></script>
-        <script src="modules/classification/class.js"></script>
-        <script src="modules/game/board.js"></script>
-        <script src="modules/sidebar/sidebar.js"></script>
+        <script defer src="modules/navbar/login.js"></script>
+        <script defer src="modules/game/ai.js"></script>
+		<script defer src="modules/messages/messages.js"></script>
+        <script defer src="modules/classification/class.js"></script>
+        <script defer src="modules/game/board.js"></script>
+        <script defer src="modules/sidebar/sidebar.js"></script>
+        <script defer src="modules/configuration/config.js"></script>
 	</head>
 
 	<body>
         <div class="navbar">
             <div class="navbar-container left">
-                <a  href="#" data-target="Logo">
+                <div id="logoNavBtn">
                     <img src="assets/img/logo-white.png" alt="Home" class="navbar-logo">
-                </a>
+                </div>
             </div>
             <div class="navbar-container right">
                 <div id="loginWrapper">
@@ -46,11 +48,11 @@
                         <label for="pass"> Password </label>
                         <input id="pass" type="password">
                     </form>
-                    <button id="loginBtn" class="btn" onclick="logIn()">Log In</button>
+                    <button id="loginBtn" class="btn">Log In</button>
                 </div>
                 <div id="logoutWrapper">
                     <div id="userLabel" class="navbar-item"> Demo </div>
-                    <button id="logoutBtn" class="btn" onclick="logOut()">Log Out</button>
+                    <button id="logoutBtn" class="btn">Log Out</button>
                 </div>
             </div>
         </div>
@@ -66,24 +68,24 @@
 
         <div id="Play" class="section">
             <ul id="commandsTab">
-                <li id="playBtn">
-                    <button type="button" onclick='playBtn()'>Play</button>
+                <li id="playBtnWrapper">
+                    <button id="playBtn" type="button">Play</button>
                 </li>
-                <li id="configBtn">
-                    <button type="button" onclick='modal("Config")'>Configuration</button>
+                <li id="configBtnWrapper">
+                    <button id="configBtn" type="button">Configuration</button>
                 </li>
-                <li id="giveUpBtn" style="display:none;">
-                    <button type="button" onclick='giveUpBtn()'>Give Up</button>
+                <li id="giveUpBtnWrapper" style="display:none;">
+                    <button id="giveUpBtn" type="button">Give Up</button>
                 </li>
                 <li class="break"></li>
                 <li>
-                    <button type="button" onclick='modal("Class")'>Classification</button>
+                    <button id="classBtn" type="button">Classification</button>
                 </li>
                 <li>
-                    <button id="messageBtn" type="button" onclick='showMessages()'>Show Messages</button>
+                    <button id="messageBtn" type="button">Show Messages</button>
                 </li>
                 <li>
-                    <button type="button" onclick='modal("Rules")'>Rules</button>
+                    <button id="rulesBtn" type="button">Rules</button>
                 </li>
             </ul>
             <div id="Board">
@@ -128,7 +130,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick='modal("Config")'>Cancel</button>
-                <button type="button" onclick='changeConfigBtn()'>Change Configuration</button>
+                <button id="changeConfigBtn" type="button">Change Configuration</button>
             </div>
         </div>
 

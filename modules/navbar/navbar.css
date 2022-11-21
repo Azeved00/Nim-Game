@@ -1,3 +1,7 @@
+#logoNavBtn{
+    cursor:pointer;
+    margin-left:1em;
+}
 .navbar {
     position: fixed;
     background-color: var(--color-5);

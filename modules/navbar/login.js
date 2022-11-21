@@ -1,40 +1,51 @@
-const   loginId = "nim-login-cookie",
-        login = "loginWrapper",
-        loginForm ="loginForm",
-        logout = "logoutWrapper";
+class Navbar{
+    static inWrapper  = Utils.getById("loginWrapper");
+    static outWrapper = Utils.getById("logoutWrapper");
+    static form = Utils.getById("loginForm");
+    static cookie = "nim-login-cookie";
 
-function logIn() {
-    //debugger;
-    var form = getById(loginForm);
-    if(form.style.display === "none"){
-        form.style.display="inherit";
-        return true;
+    static logIn(){
+        if(this.form.style.display === "none"){
+            this.form.style.display="inherit";
+            return true;
+        }
+
+        var user = Utils.getById("user").value;
+        var pass = Utils.getById("pass").value;
+
+        if(user==="demo" && pass==="demo")
+        {
+            Cookie.set(this.cookie, "true");
+            this.outWrapper.style.display="inherit";
+            this.inWrapper.style.display="none";
+            this.form.style.display="none"; 
+        }
     }
 
-    var user = getById("user").value;
-    var pass = getById("pass").value;
+    static logOut(){
+        Cookie.set(this.cookie, "false");
+        this.outWrapper.style.display="none";
+        this.inWrapper.style.display="inherit";
+        this.form.style.display="none"; 
+    }
 
-    if(user==="demo" && pass==="demo")
-    {
-        setCookie(loginId, "true");
-        getById(logout).style.display="inherit";
-        getById(login).style.display="none";
-        form.style.display="none"; 
+    static checkLogin(){
+        if(Cookie.get(this.cookie) === "true"){
+            this.outWrapper.style.display="inherit";
+            this.inWrapper.style.display="none";
+        }
+        else{
+            this.outWrapper.style.display="none";
+            this.inWrapper.style.display="inherit";
+        }
     }
 }
-function logOut(){
-    setCookie(loginId, "false");
-    getById(logout).style.display="none";
-    getById(login).style.display="inherit";
-    getById(loginForm).style.display="none"; 
-}
-function checkLogin(){
-    if(getCookie(loginId) === "true"){
-        getById(logout).style.display="inherit";
-        getById(login).style.display="none";
-    }
-    else{
-        getById(logout).style.display="none";
-        getById(login).style.display="inherit";
-    }
-}
+
+Utils.getById("loginBtn").addEventListener("click",Navbar.logIn);
+Utils.getById("logoutBtn").addEventListener("click",Navbar.logOut);
+Utils.getById("logoNavBtn").addEventListener("click",() => {
+    window.location.reload();
+})
+
+
+Navbar.checkLogin();
