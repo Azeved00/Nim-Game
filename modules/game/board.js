@@ -1,22 +1,5 @@
-class Config {
-    constructor(a){
-        var n = parseInt(a);
-        this.size = n;
-        for(let i = 0; i< n; i++){
-            this.rack[i] = i+1; 
-        }
-    }
-    take(a,b){
-        let col = parseInt(a),
-            val = parseInt(b);
-        this.rack[col]-=val;
-        if(this.rack[col]<0)
-            this.rack[col]  = 0;
-    }
-}
 
 class Game {
-    static group = 4;
     static board = Utils.getById("Board");
 
     constructor(n,ai,start,dificulty){

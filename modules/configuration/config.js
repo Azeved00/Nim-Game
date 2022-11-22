@@ -1,6 +1,16 @@
+class Config {
+    constructor(n,f.a,l){
+        this.size = parseInt(n);
+        this.first = first;
+        this.ai = a;
+        this.lvl = l;
+    }
+}
+
 Utils.getById("changeConfigBtn").addEventListener("click",()=>{
     let form = Utils.getById("configForm");
 
+    // do validation shannanigans here
     if(parseInt(Utils.getById("size").value)<1){
         var errors = Utils.getById("errorText");
         errors.innerHTML ="";
@@ -8,7 +18,9 @@ Utils.getById("changeConfigBtn").addEventListener("click",()=>{
         return;
     }
 
-    modal("Config");
+    Modals.Config.
+    
+    //get values
     config.colls = Utils.getById("size").value;
     config.start = Utils.getById("first").checked;
     config.ai    = Utils.getById("bot").checked;
@@ -18,9 +30,5 @@ Utils.getById("changeConfigBtn").addEventListener("click",()=>{
               if (rads[i].checked)
                       config.diff = rads[i].value;
 
-    config.colls = parseInt(config.colls);
-    config.diff  = parseInt(config.diff);
-
-
-    config.reload();
+    var conf = new Config();
 });

@@ -1,10 +1,10 @@
 const stateId = "nim-state-cookie";
+const url = "http://twserver.alunos.dcc.fc.up.pt:8008/"
+const group = 4;
 
 
-//setCookie(stateId, defaultState);
-if(Utils.isNOE(Cookie.get(stateId)))
-    Cookie.set(stateId, defaultState);
-showSection(Cookie.get(stateId));
+
+showSection("Logo");
 
 
 

@@ -14,13 +14,17 @@ var Navbar =(function () {
             var user = Utils.getById("user").value;
             var pass = Utils.getById("pass").value;
 
-            if(user==="demo" && pass==="demo")
-            {
-                Cookie.set(cookie, "true");
-                outWrapper.style.display="inherit";
-                inWrapper.style.display="none";
-                form.style.display="none"; 
+            const HttpRequest = new XMLHttpRequest();
+            HttpRequest.open("POST",url+"register");
+            HttpRequest.send({
+                "nick" : user,
+                "password" : pass
+            });
+            HttpRequest.onreadychange=function(){
+                if(this.readyState==4 && this.status==200)
+                    console.log(HttpRequest.responseText);
             }
+            
         },
         logOut:()=>{
             Cookie.set(cookie, "false");

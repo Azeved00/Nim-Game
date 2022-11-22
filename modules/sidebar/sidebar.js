@@ -18,7 +18,7 @@ Utils.getById("playBtn").addEventListener("click",()=>{
     Utils.getById("giveUpBtn").style.display="block";
     Utils.getById("configBtn").style.display="none";
 
-    config.game();
+    var game = new Game();
 });
 
 Utils.getById("configBtn").addEventListener("click", Modals.Config.toggle);

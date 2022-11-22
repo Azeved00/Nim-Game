@@ -1,32 +1,5 @@
-class AI {
-    static handler(b){
-        var mv = {pile: -1, otr: -1};
-        if(b.nimSum() == 0){
-            mv = randomMv(b);
-        }
-        else{
-            switch (b.diff){
-                case 1:
-                    mv = randomMv(b);
-                    break;
-                case 2:
-                    let m = Math.floor(Math.random() * 2);
-                    if(m == 1)
-                        mv = bestMv(b)
-                    else
-                        mv = randomMv(b);
-                    break;
-                case 3:
-                    mv = bestMv(b);
-                break;
-            }
-
-        }
-        mv.pile+=1;
-        b.move(mv.pile, mv.otr);
-    }
-
-    static bestMv(b){
+function AI (b) {
+    function bestMv(b){
         let nimSum = b.nimSum(),
             piles = b.balls,
             move = { pile: -1, otr: -1};
@@ -42,7 +15,7 @@ class AI {
         return move;
     }
 
-    static randomMv(b){
+    function randomMv(b){
         let non_zero_indices = new Array(b.colls),
             count= 0,
             piles = b.balls,
@@ -57,4 +30,30 @@ class AI {
         move.otr = 1 + Math.floor(Math.random() * (piles[move.pile]));
         return move;
     }
+    
+    var mv = {pile: -1, otr: -1};
+    if(b.nimSum() == 0){
+        mv = randomMv(b);
+    }
+    else{
+        switch (b.diff){
+            case 1:
+                mv = randomMv(b);
+                break;
+            case 2:
+                let m = Math.floor(Math.random() * 2);
+                if(m == 1)
+                    mv = bestMv(b)
+                else
+                    mv = randomMv(b);
+                break;
+            case 3:
+                mv = bestMv(b);
+            break;
+        }
+    }
+
+    mv.pile+=1;
+    b.move(mv.pile, mv.otr);
 }
+
