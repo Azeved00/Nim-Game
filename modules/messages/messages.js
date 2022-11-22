@@ -1,38 +1,40 @@
-class Messages {
-    static wrapper = Utils.getById('MessagesWrapper');
-    static display = Utils.getById('Messages');    
+var Messages = (function () {
+    let wrapper = Utils.getById('MessagesWrapper');
+    let display = Utils.getById('Messages');    
 
     //adds an error to the message prompt
-    static error(v){
-        var wrapper = Utils.createElem('p');
-        wrapper.style.color = "red";
-        wrapper.innerHTML = v;
-       
-        this.display.appendChild(wrapper);
-        this.display.scrollTop = msgs.scrollHeight;
-    }
+    return {
+        error:(v)=>{
+            var wrapper = Utils.createElem('p');
+            wrapper.style.color = "red";
+            wrapper.innerHTML = v;
+           
+            display.appendChild(wrapper);
+            display.scrollTop = msgs.scrollHeight;
+        },
 
-    // adds message to message prompt
-    static add(v){
-        var wrapper = Utils.createElem('p');
-        wrapper.innerHTML = v;
-       
-        this.display.appendChild(wrapper);
-        this.display.scrollTop = msgs.scrollHeight;
-    }
+        // adds message to message prompt
+        add:(v)=>{
+            var wrapper = Utils.createElem('p');
+            wrapper.innerHTML = v;
+           
+            display.appendChild(wrapper);
+            display.scrollTop = msgs.scrollHeight;
+        },
 
-    static toggleDisplay() {
-        var btn = Utils.getById('messageBtn');
-        if(this.wrapper.style.display!=='initial'){
-            this.wrapper.style.display = 'initial';
-            btn.innerHTML='Hide Messages';
-        }
-        else{
-            btn.innerHTML='Show Messages';
-            this.wrapper.style.display = '';
+        toggleDisplay: () => {
+            var btn = Utils.getById('messageBtn');
+            if(wrapper.style.display!=='initial'){
+                wrapper.style.display = 'initial';
+                btn.innerHTML='Hide Messages';
+            }
+            else{
+                btn.innerHTML='Show Messages';
+                wrapper.style.display = '';
+            }
         }
     }
-}
+})();
 
 Utils.getById('messageInput').addEventListener("keypress", (e) =>{
     if (e.key === 'Enter') {

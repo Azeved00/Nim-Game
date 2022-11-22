@@ -1,29 +1,25 @@
-class Utils {
-    static  isNOE (a) {
+var Utils = {
+    isNOE: (a) => {
         return !a;
-    };
+    },
 
-    static  getById(id){
+    getById:(id)=>{
         return document.getElementById(id);
-    };
-
-    static  createElem(tag){
-        return document.createElement(tag);
-    };
+    },
     
-    static  createElemT(tag,text){
+    createElem:(tag,text="")=>{
         let t = document.createElement(tag);
         t.innerHTML=text;
         return t;
-    };
+    },
 
-    static  isInt(id) {
+    isInt:(id) =>{
         return typeof(id) === 'number' &&
                 isFinite(id) &&
                 Math.round(id) === id;
-    };
+    },
 
-    static  triggerEvent(el, type) {
+    triggerEvent:(el, type) =>{
         // IE9+ and other modern browsers
         if ('createEvent' in document) {
             var e = document.createEvent('HTMLEvents');
@@ -35,7 +31,10 @@ class Utils {
             e.eventType = type;
             el.fireEvent('on' + e.eventType, e);
         }
-    };
+    },
+
+    Body: document.querySelector("body")
+
 }
 
 

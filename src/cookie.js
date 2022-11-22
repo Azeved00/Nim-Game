@@ -1,5 +1,5 @@
-class Cookie {
-    static get(cname) {
+var Cookie = {
+    get : (cname) => {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
@@ -13,9 +13,9 @@ class Cookie {
             }
         }
         return "";
-    }
+    },
 
-    static set(cname, cvalue) {
+    set: (cname, cvalue) => {
         const d = new Date();
         d.setTime(d.getTime() + (5*24*60*60*1000));
         let expires = "expires="+ d.toUTCString();

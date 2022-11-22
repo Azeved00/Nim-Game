@@ -6,6 +6,7 @@ function closeBtn(){
     modal("FinishMessage");
     config.reload();
 }
+
 function restartBtn(){
     modal("FinishMessage");
     config.game();
@@ -20,7 +21,7 @@ Utils.getById("playBtn").addEventListener("click",()=>{
     config.game();
 });
 
-Utils.getById("configBtn").addEventListener("click", () => {modal("Config")});
+Utils.getById("configBtn").addEventListener("click", Modals.Config.toggle);
 
 
 Utils.getById("giveUpBtn").addEventListener("click",() => {
@@ -31,8 +32,8 @@ Utils.getById("giveUpBtn").addEventListener("click",() => {
     config.giveUp();
 });
 
-Utils.getById("classBtn").addEventListener("click",() => {modal("Class")});
+Utils.getById("classBtn").addEventListener("click", Modals.Class.toggle);
 Utils.getById("messageBtn").addEventListener("click", () => {Messages.toggleDisplay()});
-Utils.getById("rulesBtn").addEventListener("click",() => {modal("Rules")})
+Utils.getById("rulesBtn").addEventListener("click", Modals.Rules.toggle)
 
 

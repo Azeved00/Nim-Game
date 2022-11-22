@@ -1,5 +1,5 @@
-class Modal {
-    function toggle(elemId, message=""){
+/*class Modal {
+    static toggle(elemId, message=""){
         var e = Utils.getById(elemId);
         if(e.style.display !== 'flex'){
             var shadow= Utils.createElem("div");
@@ -28,4 +28,38 @@ class Modal {
         if(elemId === "StandardMessage")
            Utils.getById("StandardMessageBody").innerHTML=message;
     }
-}
+}*/
+
+var Modals = (function () {
+    var shadow = Utils.getById("ModalShadow");
+    function check (m, callback) {
+        if(m.style.display !== 'flex'){
+            shadow.style.display="initial";
+            shadow.onclick = callback;
+            m.style.display = 'flex';
+        }
+        else{
+            shadow.style.display="none";
+            shadow.style.display = 'none'
+            m.style.display = '';
+        }
+    };
+
+    return { 
+        Config  :{
+                toggle: () => {check(Utils.getById("Config"),Modals.Config.toggle)}
+        },
+        Class   :{
+                toggle: () => {check(Utils.getById("Class"),Modals.Class.toggle)}
+        },
+        Rules   :{
+                toggle: () => {check(Utils.getById("Rules"),Modals.Rules.toggle)}
+        },
+        Msgs    : (function () {
+            let m = Utils.getById("Config");
+            return {
+                toggle: () => {check(m,Modals.Config.toggle)}
+            }
+        })()
+    }
+})();
