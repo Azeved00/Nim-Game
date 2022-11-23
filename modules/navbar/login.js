@@ -16,14 +16,15 @@ var Navbar =(function () {
 
             const HttpRequest = new XMLHttpRequest();
             HttpRequest.open("POST",url+"register");
-            HttpRequest.send({
+            HttpRequest.onreadystatechange=function(){
+                if(this.readyState==4)
+                    console.log(HttpRequest.response);
+            }
+            HttpRequest.send(JSON.stringify({
                 "nick" : user,
                 "password" : pass
-            });
-            HttpRequest.onreadychange=function(){
-                if(this.readyState==4 && this.status==200)
-                    console.log(HttpRequest.responseText);
-            }
+            }));
+
             
         },
         logOut:()=>{
