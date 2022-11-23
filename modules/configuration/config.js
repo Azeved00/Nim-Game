@@ -1,34 +1,34 @@
 class Config {
-    constructor(n,f.a,l){
-        this.size = parseInt(n);
+    constructor(n,f,a,l){
+        this.size = n;
         this.first = first;
         this.ai = a;
         this.lvl = l;
     }
 }
 
+
 Utils.getById("changeConfigBtn").addEventListener("click",()=>{
     let form = Utils.getById("configForm");
+    Modals.Config.clearErrors();
+
+    let valid = true,
+        size = Utils.getById("size").value,
+        first = Utils.getById("first").checked,
+        ai = Utils.getById("bot").checked,
+        lvl =(() => {
+            let rads = document.getElementsByName("dif"), i;
+            for (i=0; i < rads.length; i++)
+                if (rads[i].checked)
+                    return rads[i].value;
+            return null;
+        })();
+
 
     // do validation shannanigans here
-    if(parseInt(Utils.getById("size").value)<1){
-        var errors = Utils.getById("errorText");
-        errors.innerHTML ="";
-        errors.appendChild(Utils.createElemT("p","Invalid Collumn Number"));
-        return;
-    }
-
-    Modals.Config.
+    if(parseInt(size)<1) Modals.Config.error("Invalid Collumn Number");
+    if(!valid) return;
     
-    //get values
-    config.colls = Utils.getById("size").value;
-    config.start = Utils.getById("first").checked;
-    config.ai    = Utils.getById("bot").checked;
-
-    let rads = document.getElementsByName("dif"), i;
-       for (i=0; i < rads.length; i++)
-              if (rads[i].checked)
-                      config.diff = rads[i].value;
-
-    var conf = new Config();
+    
+    conf = new Config(parseInt(size),first,ai,lvl);
 });

@@ -47,13 +47,21 @@ var Modals = (function () {
 
     return { 
         Config  :{
-                toggle: () => {check(Utils.getById("Config"),Modals.Config.toggle)}
+            error:  (t) => {
+                let error = Utils.createElem("p",t);
+                error.className="error";
+                Utils.getById("errorText").appendChild(error)
+            },
+            clearErrors: () => {
+                Utils.getById("errorText").innerHTML="";
+            },
+            toggle: () => {check(Utils.getById("Config"),Modals.Config.toggle)}
         },
         Class   :{
-                toggle: () => {check(Utils.getById("Class"),Modals.Class.toggle)}
+            toggle: () => {check(Utils.getById("Class"),Modals.Class.toggle)}
         },
         Rules   :{
-                toggle: () => {check(Utils.getById("Rules"),Modals.Rules.toggle)}
+            toggle: () => {check(Utils.getById("Rules"),Modals.Rules.toggle)}
         },
         Msgs    : (function () {
             let m = Utils.getById("Config");
