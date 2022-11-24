@@ -5,21 +5,16 @@ var Messages = (function () {
     //adds an error to the message prompt
     return {
         error:(v)=>{
-            var wrapper = Utils.createElem('p');
-            wrapper.style.color = "red";
-            wrapper.innerHTML = v;
-           
+            var wrapper = Utils.createElem({tag:"p",text:v,cls:"error"});
             display.appendChild(wrapper);
-            display.scrollTop = msgs.scrollHeight;
+            display.scrollTop = display.scrollHeight;
         },
 
         // adds message to message prompt
         add:(v)=>{
-            var wrapper = Utils.createElem('p');
-            wrapper.innerHTML = v;
-           
+            var wrapper = Utils.createElem({tag:"p",text:v});
             display.appendChild(wrapper);
-            display.scrollTop = msgs.scrollHeight;
+            display.scrollTop = display.scrollHeight;
         },
 
         toggleDisplay: () => {
