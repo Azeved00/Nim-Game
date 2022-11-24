@@ -7,12 +7,6 @@ var Utils = {
         return document.getElementById(id);
     },
     
-    createElem:(tag,text="")=>{
-        let t = document.createElement(tag);
-        t.innerHTML=text;
-        return t;
-    },
-
     isInt:(id) =>{
         return typeof(id) === 'number' &&
                 isFinite(id) &&
@@ -31,6 +25,23 @@ var Utils = {
             e.eventType = type;
             el.fireEvent('on' + e.eventType, e);
         }
+    },
+
+    setDefaults: (obj,def) => {
+        return Object.assign({},def,obj);
+    },
+
+    createElem:(input)=>{
+        let opt = Utils.setDefaults(input,{
+            tag:"div",
+            text:"",
+            cls:"",
+        })
+
+        let t = document.createElement(opt.tag);
+        t.innerHTML=opt.text;
+        t.className=opt.cls;
+        return t;
     },
 
     Body: document.querySelector("body")

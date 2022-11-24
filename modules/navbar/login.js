@@ -17,8 +17,29 @@ var Navbar =(function () {
             const HttpRequest = new XMLHttpRequest();
             HttpRequest.open("POST",url+"register");
             HttpRequest.onreadystatechange=function(){
-                if(this.readyState==4)
-                    console.log(HttpRequest.response);
+                if(this.readyState!=4)
+                    return;
+                
+                if(this.status ==200){
+                    Utils.getById("userLabel").innerHTML=user;
+                    inWrapper.style.display="none";
+                    outWrapper.style.display="inherit";
+
+                }
+                else{
+                    Utils.getById("pass").value="";
+                    Modals.Msgs.edit({
+                        title:"Log in Failed",
+                        message:"Log in failed, wrong password",
+                        buttons:[
+                            {
+                                text: "Ok",
+                                callback: Modals.Msgs.toggle,
+                            }
+                        ]
+                    })
+                    Modals.Msgs.toggle();
+                }
             }
             HttpRequest.send(JSON.stringify({
                 "nick" : user,
