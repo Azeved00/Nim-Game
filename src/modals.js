@@ -1,6 +1,5 @@
 var Modals = (function () {
     let shadow = Utils.getById("ModalShadow");
-    (() => console.log("hi"))();
     function check (m, callback) {
         if(m.style.display !== 'flex'){
             shadow.style.display="initial";
@@ -15,26 +14,55 @@ var Modals = (function () {
     };
 
     return { 
-        Config  :{
-            error:  (t) => {
-                let error = Utils.createElem({tag: "p", text:t, cls:"error"});
-                Utils.getById("configErrors").appendChild(error);
-            },
-            clearErrors: () => {
-                Utils.getById("configErrors").innerHTML="";
-            },
-            toggle: () => {
-                    check(
-                        Utils.getById("Config"),
-                        Modals.Config.toggle)
+        Config  :(() => {
+            let m = Utils.getById("Config");
+            (()=>{
+                m.querySelectorAll(".close-btn")
+                .forEach( (btn) => {
+                    btn.onclick = () =>{Modals.Config.toggle()};
+                })
+            })();
+            return {
+                error:  (t) => {
+                    let error = Utils.createElem({tag: "p", text:t, cls:"error"});
+                    Utils.getById("configErrors").appendChild(error);
+                },
+                clearErrors: () => {
+                    Utils.getById("configErrors").innerHTML="";
+                },
+                toggle: () => {
+                    check(m,Modals.Config.toggle)
                 }
-        },
-        Class   :{
-            toggle: () => {check(Utils.getById("Class"),Modals.Class.toggle)}
-        },
-        Rules   :{
-            toggle: () => {check(Utils.getById("Rules"),Modals.Rules.toggle)}
-        },
+            }
+        })(),
+        Class   :(()=>{
+            let m = Utils.getById("Class");
+            (() => {
+                m.querySelectorAll(".close-btn")
+                .forEach( (btn) => {
+                    btn.onclick = () =>{Modals.Class.toggle()};
+                })
+            })()
+            return{
+                toggle: () => {
+                    check(m,Modals.Class.toggle)
+                }
+            }
+        })(),
+        Rules   :(()=>{
+            let m = Utils.getById("Rules");
+            (() => {
+                m.querySelectorAll(".close-btn")
+                .forEach( (btn) => {
+                    btn.onclick = () =>{Modals.Rules.toggle()};
+                })
+            })()
+            return  {
+                toggle: () => {
+                    check(m,Modals.Rules.toggle)
+                }
+            }
+        })(),
         Msgs    : (function () {
             let m = Utils.getById("Info");
             return {
@@ -87,25 +115,4 @@ var Modals = (function () {
             }
         })()
     }
-})();
-
-// close buttons are prepared here
-// since every modal has a different function 
-// every button nees to have a different function
-(()=> {
-    Utils.getById("Config")
-         .querySelectorAll(".close-btn")
-         .forEach( (btn) => {
-            btn.onclick = Modals.Config.toggle;
-         });
-    Utils.getById("Rules")
-         .querySelectorAll(".close-btn")
-         .forEach( (btn) => {
-            btn.onclick = Modals.Rules.toggle;
-         });
-    Utils.getById("Class")
-         .querySelectorAll(".close-btn")
-         .forEach( (btn) => {
-            btn.onclick = Modals.Class.toggle;
-         });
 })();
