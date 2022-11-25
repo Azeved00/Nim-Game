@@ -20,3 +20,5 @@ function showSection(elemId){
       showSection(defaultState);
     }
 }
+
+Utils.getById("logoBtn").onclick=() => {showSection('Play')};
