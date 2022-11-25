@@ -1,5 +1,6 @@
 var Modals = (function () {
-    var shadow = Utils.getById("ModalShadow");
+    let shadow = Utils.getById("ModalShadow");
+    (() => console.log("hi"))();
     function check (m, callback) {
         if(m.style.display !== 'flex'){
             shadow.style.display="initial";
@@ -22,7 +23,11 @@ var Modals = (function () {
             clearErrors: () => {
                 Utils.getById("configErrors").innerHTML="";
             },
-            toggle: () => {check(Utils.getById("Config"),Modals.Config.toggle)}
+            toggle: () => {
+                    check(
+                        Utils.getById("Config"),
+                        Modals.Config.toggle)
+                }
         },
         Class   :{
             toggle: () => {check(Utils.getById("Class"),Modals.Class.toggle)}
@@ -82,4 +87,25 @@ var Modals = (function () {
             }
         })()
     }
+})();
+
+// close buttons are prepared here
+// since every modal has a different function 
+// every button nees to have a different function
+(()=> {
+    Utils.getById("Config")
+         .querySelectorAll(".close-btn")
+         .forEach( (btn) => {
+            btn.onclick = Modals.Config.toggle;
+         });
+    Utils.getById("Rules")
+         .querySelectorAll(".close-btn")
+         .forEach( (btn) => {
+            btn.onclick = Modals.Rules.toggle;
+         });
+    Utils.getById("Class")
+         .querySelectorAll(".close-btn")
+         .forEach( (btn) => {
+            btn.onclick = Modals.Class.toggle;
+         });
 })();
