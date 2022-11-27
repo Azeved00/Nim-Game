@@ -1,26 +1,43 @@
-#ClassTable {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 5px;
-  text-align: center;
+.class-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
-#ClassTable td, #ClassTable th {
-  border: 1px solid #ddd;
-  padding: 7px;
+.class-table td, .class-table th {
+    border: 1px solid #ddd;
+    padding: 7px;
 }
 
-#ClassTable tr:nth-child(even){
+.class-table tr:nth-child(even){
     background-color: var(--color-4);
 }
 
-#ClassTable tr:hover {
+.class-table tr:hover {
     background-color: var(--color-3);
 }
 
-#ClassTable th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: var(--color-5);
-  color: white;
+.class-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: var(--color-5);
+    color: white;
 }
+
+#separator {
+    padding-bottom:10px;
+    display:flex;
+    justify-content:space-around;
+}
+#separator button.active{
+    background-color:var(--color-4);
+}
+#separator button{
+    width:100%;
+    margin-left:0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color:var(--color-3);
+}
+

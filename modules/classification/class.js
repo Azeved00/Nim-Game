@@ -54,3 +54,32 @@ var classTable = {
     totals.appendChild(createElemT("span", `Hard: ${this.vsAi3}`));
   }
 }
+
+//opt should have
+//who won, against the ai, dificulty, which user played 
+var classTable = (() =>{
+    let token = "class-table-token";
+    (()=>{
+        let curr = localStorage.getItem(token);
+        if(!curr) localStorage.setItem(token,"{}");
+    })()
+    return {
+        getEntries:()=>{
+            return JSON.parse(localStorage.getItem(token));
+        },
+        addEntry:(input)=>{         
+            if(input.ai==false)
+                return false;
+            let opt = Utils.setDefaults(input,{});
+            let upd = classTable.getEntries();
+            upd.games++;
+            if(opt.res==true){
+
+            }
+
+            upd.push(opt);
+            localStorage.setItem(token,JSON.stringify({entries: upd}));
+            return true;
+        }
+    }
+})()

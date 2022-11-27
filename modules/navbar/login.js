@@ -2,9 +2,16 @@ var Navbar =(function () {
     let inWrapper = Utils.getById("loginWrapper");
     let outWrapper  = Utils.getById("logoutWrapper");
     let form = Utils.getById("loginForm");
-    let cookie  = "nim-login-cookie";
-
+    let token = "login-token";
+    (()=>{
+        let usr = localStorage.getItem(token);
+        if(Utils.isNOE(usr))
+            localStorage.setItem(token,"");
+    })()
     return {
+        getUser:()=>{
+            return localStorage.getItem(token);
+        },
         logIn:()=>{
             if(form.style.display === "none"){
                 form.style.display="inherit";
@@ -24,7 +31,7 @@ var Navbar =(function () {
                     Utils.getById("userLabel").innerHTML=user;
                     inWrapper.style.display="none";
                     outWrapper.style.display="inherit";
-
+                    localStorage.setItem(token,user);
                 }
                 else{
                     Utils.getById("pass").value="";
@@ -44,24 +51,26 @@ var Navbar =(function () {
             HttpRequest.send(JSON.stringify({
                 "nick" : user,
                 "password" : pass
-            }));
-
-            
+            })); 
         },
         logOut:()=>{
-            Cookie.set(cookie, "false");
             outWrapper.style.display="none";
             inWrapper.style.display="inherit";
-            form.style.display="none"; 
+            Utils.getById("userLabel").innerHTML="";
+            form.style.display="none";
+            localStorage.setItem(token,"");
         },
         checkLogin:()=>{
-            if(Cookie.get(cookie) === "true"){
+            let usr = localStorage.getItem(token);
+            if(usr){
                 outWrapper.style.display="inherit";
+                Utils.getById("userLabel").innerHTML=usr;
                 inWrapper.style.display="none";
             }
             else{
                 outWrapper.style.display="none";
                 inWrapper.style.display="inherit";
+                Utils.getById("userLabel").innerHTML="";
             }
         }
     }

@@ -1,6 +1,6 @@
 @font-face {
   font-family: SpaceMono;
-  src: url("../assets/fonts/SpaceMono-Bold.ttf");
+  src: url("../../assets/fonts/SpaceMono-Bold.ttf");
 }
 
 *{
@@ -42,70 +42,6 @@ body{
 
 .right {
     right: 0px;
-}
-
-#Rules p {
-    font-size: 1.5em;
-    padding: 0.5em 0;
-}
-
-.modal span {
-    padding: 5px;
-}
-
-.modal-header{
-    display: flex;
-    width:100%;
-    background: var(--color-5);
-    border-radius: var(--modal-br) var(--modal-br) 0 0;
-    padding-bottom: 5px;
-}
-
-.close-btn{
-    margin-left:auto;
-}
-
-.modal-body{
-    padding: 10px 10px;
-    width:100%;
-    background: var(--color-4);
-    flex-grow: 1;
-    transform: translate(-9px,0px);
-}
-
-.modal-footer{
-    width:100%;
-    justify-content: end;
-    display: flex;
-    background: var(--color-5);
-    border-radius: 0 0 var(--modal-br) var(--modal-br);
-    padding-top: 10px;
-    margin-top: auto;
-}
-
-.modal{
-    display: none;
-    position:absolute;
-    left:50%;
-    top:50%;
-    min-width: 400px;
-    transform: translate(-50%,-50%);
-    z-index: 200;
-    background: var(--color-5);
-    border-radius: var(--modal-br);
-    padding: 10px;
-    flex-direction: column;
-}
-
-#ModalShadow{
-    display: block;
-    width:100vw;
-    height:100vh;
-    top:0;
-    left:0;
-    position:absolute;
-    z-index: 199;
-    background: var(--color-6-opac);
 }
 
 
