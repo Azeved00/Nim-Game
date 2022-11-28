@@ -12,7 +12,7 @@ var Navbar =(function () {
         getUser:()=>{
             return localStorage.getItem(token);
         },
-        logIn:()=>{
+        logIn:async() => {
             if(form.style.display === "none"){
                 form.style.display="inherit";
                 return true;
@@ -21,37 +21,35 @@ var Navbar =(function () {
             var user = Utils.getById("user").value;
             var pass = Utils.getById("pass").value;
 
-            const HttpRequest = new XMLHttpRequest();
-            HttpRequest.open("POST",url+"register");
-            HttpRequest.onreadystatechange=function(){
-                if(this.readyState!=4)
-                    return;
-                
-                if(this.status ==200){
-                    Utils.getById("userLabel").innerHTML=user;
-                    inWrapper.style.display="none";
-                    outWrapper.style.display="inherit";
-                    localStorage.setItem(token,user);
-                }
-                else{
-                    Utils.getById("pass").value="";
-                    Modals.Msgs.edit({
-                        title:"Log in Failed",
-                        message:"Log in failed, wrong password",
-                        buttons:[
-                            {
-                                text: "Ok",
-                                callback: Modals.Msgs.toggle,
-                            }
-                        ]
-                    })
-                    Modals.Msgs.toggle();
-                }
-            }
-            HttpRequest.send(JSON.stringify({
-                "nick" : user,
-                "password" : pass
-            })); 
+            await fetch(url+"register",{
+                method: "POST",
+                body: JSON.stringify({
+                    "nick": user,
+                    "password": pass
+                })}).then((response) => {
+                    //console.log(response)
+                    if(response.status == 200){
+                        Utils.getById("userLabel").innerHTML=user;
+                        inWrapper.style.display="none";
+                        outWrapper.style.display="inherit";
+                        localStorage.setItem(token,user);
+                    }
+                    else{
+                        Utils.getById("pass").value="";
+                        Modals.Msgs.edit({
+                            title:"Log in Failed",
+                            message:"Log in failed, wrong password",
+                            buttons:[
+                                {
+                                    text: "Ok",
+                                    callback: Modals.Msgs.toggle,
+                                }
+                            ]
+                        })
+                        Modals.Msgs.toggle();
+                    }
+                })
+
         },
         logOut:()=>{
             outWrapper.style.display="none";
