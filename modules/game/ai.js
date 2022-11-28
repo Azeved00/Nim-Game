@@ -31,7 +31,7 @@ function AI (b) {
         return move;
     }
     
-    var mv = {pile: -1, otr: -1};
+    var mv = {col: -1, balls: -1};
     if(b.nimSum() == 0){
         mv = randomMv(b);
     }
@@ -53,7 +53,7 @@ function AI (b) {
         }
     }
 
-    mv.pile+=1;
-    b.move(mv.pile, mv.otr);
+    mv.colls+=1;
+    b.move(mv);
 }
 

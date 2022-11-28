@@ -32,6 +32,7 @@ class Config {
         
         
         conf = new Config(size,first,ai,lvl);
+        return conf;
     }
 
     constructor(n,f,a,l){

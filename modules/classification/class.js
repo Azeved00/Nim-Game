@@ -1,85 +1,58 @@
-var classTable = {
-  total: 0,
-  vsAi : 0,
-  vsAi1: 0,
-  vsAi2: 0,
-  vsAi3: 0,
-  vsPla: 0,
-  won  : 0,
-
-  addEntry(usr, ai ,dific, res) {
-    var entry = createElem("tr");
-    entry.appendChild(createElemT("td",usr));
-    this.total++;
-    if(ai){
-        entry.appendChild(createElemT("td","Vs. Ai"));
-        this.vsAi++;
-        if(dific == 1){
-            entry.appendChild(createElemT("td","Easy"));
-            this.vsAi1++;
-        }
-        else if(dific == 2){
-            entry.appendChild(createElemT("td","Medium"));
-            this.vsAi2;
-        }
-        else if(dific == 3){
-            entry.appendChild(createElemT("td","Hard"));
-            this.vsAi3;
-        }
-    }
-    else{
-        entry.appendChild(createElemT("td","Vs Player"));
-        entry.appendChild(createElemT("td",""));
-    }
-
-    if(res){
-        entry.appendChild(createElemT("td","You Won!"));
-        this.won++;
-    }
-    else{
-        entry.appendChild(createElemT("td","You Lost!"));
-    }
-
-    getById("ClassTable").getElementsByTagName("tbody")[0].appendChild(entry);
-    
-
-    var totals = getById("ClassResults");
-    totals.innerHTML="";
-    totals.appendChild(createElemT("span", `Total: ${this.total}`));
-    totals.appendChild(createElemT("span", `Won: ${this.won}`));
-    totals.appendChild(createElem("hr"));
-    totals.appendChild(createElemT("span", `VS AI: ${this.vsAi}`));
-    totals.appendChild(createElemT("span", `Easy: ${this.vsAi1}`));
-    totals.appendChild(createElemT("span", `Medium: ${this.vsAi2}`));
-    totals.appendChild(createElemT("span", `Hard: ${this.vsAi3}`));
-  }
-}
-
 //opt should have
 //who won, against the ai, dificulty, which user played 
 var classTable = (() =>{
     let token = "class-table-token";
     (()=>{
         let curr = localStorage.getItem(token);
-        if(!curr) localStorage.setItem(token,"{}");
-    })()
+        if(!curr) localStorage.setItem(token,JSON.stringify({users:[]}));
+    })();
     return {
         getEntries:()=>{
-            return JSON.parse(localStorage.getItem(token));
+            let arr = JSON.parse(localStorage.getItem(token)).users;
+            arr.sort((l,r)=>{
+                return (l.vic/l.games) < (r.vic/r.games);
+            })
+            return arr;
         },
         addEntry:(input)=>{         
             if(input.ai==false)
                 return false;
-            let opt = Utils.setDefaults(input,{});
+
+            let opt = Utils.setDefaults(input,{
+                user: Navbar.getUser(),
+                lvl:2,
+                vic:true,
+            });
+
             let upd = classTable.getEntries();
-            upd.games++;
-            if(opt.res==true){
+            let res =0;
+            if(opt.vic) res=1;
 
-            }
-
-            upd.push(opt);
-            localStorage.setItem(token,JSON.stringify({entries: upd}));
+            let i;
+            for(i = 0; i < upd.length ;i++)
+            {
+                if(upd[i].user === opt.user && upd[i].ai === opt.lvl){
+                    upd[i].games++;
+                    upd[i].vic+=res;
+                    break;
+                }
+            };
+            if(i==upd.length)
+                upd.push({
+                    user: opt.user,
+                    ai: opt.lvl,
+                    games: 1,
+                    vic: res,
+                });
+            
+            Modals.Class.removeLocal();
+            Modals.Class.addLocal(upd);
+            
+            localStorage.setItem(token,JSON.stringify({users: upd}));
             return true;
         }
     }
 })()
+
+//add entries saved in local storage
+Modals.Class.addLocal(classTable.getEntries());

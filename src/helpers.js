@@ -6,12 +6,6 @@ var Utils = {
     getById:(id)=>{
         return document.getElementById(id);
     },
-    
-    isInt:(id) =>{
-        return typeof(id) === 'number' &&
-                isFinite(id) &&
-                Math.round(id) === id;
-    },
 
     triggerEvent:(el, type) =>{
         // IE9+ and other modern browsers

@@ -4,12 +4,9 @@ class Game {
 
     constructor(n,ai,start,dificulty){
         this.config = new Config(n);
-        this.ai = ai;           // playing against ai
-        this.whoStart = start;  // who starts the game
         this.playing = start;   // who is playing right now 
         this.inGame = false;    // 
         this.size = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.colls + '*2*0.2em - 3em)/' + this.colls + ')';;      // size of the balls
-        this.difficulty = 2;    //
     }
 
     nimSum(){
@@ -66,36 +63,60 @@ class Game {
         }
     }
     draw(){}
-    restart(){}
-    play(){}
-    giveUp(){}
-}
-
-let config = {
-    move (a, b) {
+    reload(){
+        this.playing = this.config.start;
+        for(let i = 0; i < this.config.size;i++){
+            this.balls[i] = i+1;
+        }
+    },
+    //takes object with col and ball
+    play(input){
+        let opt = Utils.setDefaults(input,{
+            balls: -1,
+        })
         if(!this.inGame)
             return false;
 
-        var col = parseInt(a);
-        if(isNaN(col)) return false;
-        col-=1;
+        opt.col = parseInt(opt.col);
+        opt.balls = parseInt(opt.balls);
+        if(Utils.isNOE(opt.col) || Utils.IsNOE(opt.balls) ) return false;
+        opt.col-=1;
 
-        if(b === ""){
-            this.balls[col] = 0;
+        if(opt.balls === -1){
+            this.rack[opt.col] = 0;
         }
         else{
-            var n = parseInt(b);
-            if(isNaN(col)) return false;
-            this.balls[col]-=n;
-            if(this.balls[col] < 0) this.balls[col] = 0;
+            this.rack[opt.col]-=opt.balls; 
+        }
+
+        if(this.rack[col] < 0){ 
+            this.rack[col] = 0;
         }
 
         this.playing=!this.playing;
 
-        writeMessage(`Taken ${n} balls from ${col+1} collumn;`);
+        writeMessage(`Taken ${opt.balls} balls from ${opt.col+1} collumn;`);
         return true;
-    },
+    }
+    giveUp(){
+        if(this.inGame){
+            this.board.innerHTML="";
+            this.inGame=false;
+            this.reload();
+            modal("FinishMessage", "You Gave up!");
+            classTable.addEntry({
+                ai: this.config.lvl,
+                vic: false,
+            });
+            writeMessage("You gave um on the game!");
+        }
+        else{
+            writeMessage("Game not in progress!");
+        }
+    }
+}
 
+let config = {
     draw() {
         var board = getById("Board");
         board.innerHTML = "";        
@@ -129,28 +150,7 @@ let config = {
     },
 
     reload(){
-        this.playing = this.start;
-        for(let i = 0; i < this.colls;i++){
-            this.balls[i] = i+1;
-        }
 
-        this.size = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.colls + '*2*0.2em - 3em)/' + this.colls + ')';
-
-    },
-    giveUp(){
-        if(this.inGame){
-            getById("Board").innerHTML="";
-            this.inGame=false;
-            this.reload();
-            modal("FinishMessage", "You Gave up!");
-            classTable.addEntry("demo", this.ai, this.diff, this.false);
-            writeMessage("You gave um on the game!");
-        }
-        else{
-            writeMessage("Game not in progress!");
-        }
-    },
-    game() {
-        
     }
+    
 };

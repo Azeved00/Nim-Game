@@ -2,9 +2,9 @@
 <html lang="en">
 	<head>
 		<title>Nim Game </title>
-	    <link rel="shortcut icon" href="/assets/favicon.ico">	
         <meta charset=UTF-8>
-
+        <link rel="icon" type="image/ico" href="assets/favicon.ico">	
+        
         <!-- Get Stylesheets-->
         <!-- Base Stylesheet-->
         <link rel="stylesheet" href="assets/stylesheets/main.css" type="text/css">
@@ -141,25 +141,29 @@
             </div>
             <div class="modal-body">
                 <div id="separator">
-                    <button>Global</button>
-                    <button class="active">Local</button>
+                    <button id="globalBtn" class="nactive">Global</button>
+                    <button id="localBtn" class="active">Local</button>
                 </div>
+                <div id="CTWrapper">
 
-                <table id="LocalCT" class="class-table">
-                    <tr>
-                        <th> User </th>
-                        <th> AI </th>
-                        <th> Games</th>
-                        <th> Victories</th>
-                    </tr>
-                </table>                
-                <table id="GlobalCT" class="class-table">
-                    <tr>
-                        <th> User </th>
-                        <th> Games</th>
-                        <th> Victories</th>
-                    </tr>
-                </table>
+                    <table id="localCT" class="class-table">
+                        <thead>
+                            <th> User </th>
+                            <th> AI </th>
+                            <th> Games</th>
+                            <th> Victories</th>
+                        </thead>
+                        <tbody id="localCTBody"></tbody>
+                    </table>                
+                    <table id="globalCT" class="class-table">
+                        <thead>
+                            <th> User </th>
+                            <th> Games</th>
+                            <th> Victories</th>
+                        </thead>
+                        <tbody id="globalCTBody"></tbody>
+                    </table>
+                </div>
 				<div id="ClassResults">
 				</div>
             </div>

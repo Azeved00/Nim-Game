@@ -37,16 +37,120 @@ var Modals = (function () {
         })(),
         Class   :(()=>{
             let m = Utils.getById("Class");
+            let gt = {
+                btn : Utils.getById("globalBtn"),
+                table: Utils.getById("globalCT"),
+                body: Utils.getById("globalCTBody"),
+            };
+            let lt = {
+                btn : Utils.getById("localBtn"),
+                table: Utils.getById("localCT"),
+                body: Utils.getById("localCTBody"),
+            };
             (() => {
                 m.querySelectorAll(".close-btn")
                 .forEach( (btn) => {
                     btn.onclick = () =>{Modals.Class.toggle()};
                 })
-            })()
+                gt.btn.onclick=() => {
+                    Modals.Class.changeClass();
+                }
+                lt.btn.onclick=() => {
+                    Modals.Class.changeClass();
+                }
+            })();
+            gt.table.style.display="none";
             return{
                 toggle: () => {
                     check(m,Modals.Class.toggle)
-                }
+                },
+                removeGlobal: () =>{
+                    gt.body.innerHTML="";
+                },
+                removeLocal: () =>{
+                    lt.body.innerHTML="";
+                },
+                addLocal: (entries)=>{
+                    entries.forEach((entry) => {
+                        let row = Utils.createElem({tag:"tr"});
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.user,
+                        }));
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.ai,
+                        }))
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.games,
+                        }))
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.vic,
+                        }))
+                        lt.body.appendChild(row);
+                    })
+                },
+                addGlobal: (entries)=>{
+                    entries.forEach((entry) => {
+                        let row = Utils.createElem({tag:"tr"});
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.nick,
+                        }));
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.games,
+                        }))
+                        row.appendChild(Utils.createElem({
+                            tag: "td",
+                            text: entry.victories,
+                        }))
+                        gt.body.appendChild(row);
+                    })
+                },
+                changeClass: () => {
+                    if(gt.btn.className=="active"){
+                        gt.btn.className="nactive";
+                        lt.btn.className="active";
+                        gt.table.style.display="none";
+                        lt.table.style.display="table";    
+                    }else{
+                        const HttpRequest = new XMLHttpRequest();
+                        HttpRequest.open("POST",url+"ranking");
+                        HttpRequest.onreadystatechange=()=>{
+                            if(HttpRequest.readyState!=4)
+                                return;
+                
+                            if(HttpRequest.status ==200){
+                                Modals.Class.removeGlobal();
+                                Modals.Class.addGlobal(JSON.parse(HttpRequest.response).ranking);
+                            }
+                            else{
+                                Modals.Msgs.edit({
+                                    title:"Ranking Error",
+                                    message:"There was an error with the request of rank",
+                                    buttons:[
+                                        {
+                                            text: "Ok",
+                                            callback: Modals.Msgs.toggle,
+                                        }
+                                    ]
+                                })
+                            }
+                        }
+                        HttpRequest.send(JSON.stringify({
+                            "group":group,
+                            "size":6,
+                        })); 
+                        gt.btn.className="active";
+                        lt.btn.className="nactive";
+                        gt.table.style.display="table";
+                        lt.table.style.display="none";
+                    }
+                },
+
             }
         })(),
         Rules   :(()=>{
@@ -116,3 +220,4 @@ var Modals = (function () {
         })()
     }
 })();
+
