@@ -12,7 +12,7 @@ var Navbar =(function () {
         getUser:()=>{
             return localStorage.getItem(token);
         },
-        logIn:async() => {
+        logIn:() => {
             if(form.style.display === "none"){
                 form.style.display="inherit";
                 return true;
@@ -20,36 +20,23 @@ var Navbar =(function () {
 
             var user = Utils.getById("user").value;
             var pass = Utils.getById("pass").value;
-
-            await fetch(url+"register",{
-                method: "POST",
-                body: JSON.stringify({
-                    "nick": user,
-                    "password": pass
-                })}).then((response) => {
-                    //console.log(response)
-                    if(response.status == 200){
-                        Utils.getById("userLabel").innerHTML=user;
-                        inWrapper.style.display="none";
-                        outWrapper.style.display="inherit";
-                        localStorage.setItem(token,user);
-                    }
-                    else{
-                        Utils.getById("pass").value="";
-                        Modals.Msgs.edit({
-                            title:"Log in Failed",
-                            message:"Log in failed, wrong password",
-                            buttons:[
-                                {
-                                    text: "Ok",
-                                    callback: Modals.Msgs.toggle,
-                                }
-                            ]
-                        })
-                        Modals.Msgs.toggle();
-                    }
-                })
-
+            
+            makeRequest({
+                command:"register",
+                body:{
+                    "nick":user,
+                    "password":pass
+                },
+                okCallback: () => {
+                    Utils.getById("userLabel").innerHTML=user;
+                    inWrapper.style.display="none";
+                    outWrapper.style.display="inherit";
+                    localStorage.setItem(token,user);
+                },
+                badCallback: () => {
+                    Utils.getById("pass").value="";
+                }
+            })
         },
         logOut:()=>{
             outWrapper.style.display="none";

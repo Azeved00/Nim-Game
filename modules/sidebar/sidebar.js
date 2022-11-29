@@ -33,7 +33,7 @@ Utils.getById("giveUpBtn").addEventListener("click",() => {
 });
 
 Utils.getById("classBtn").addEventListener("click", Modals.Class.toggle);
-Utils.getById("messageBtn").addEventListener("click", () => {Messages.toggleDisplay()});
+Utils.getById("messageBtn").addEventListener("click", Messages.toggleDisplay);
 Utils.getById("rulesBtn").addEventListener("click", Modals.Rules.toggle)
 
 

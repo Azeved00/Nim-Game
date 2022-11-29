@@ -110,40 +110,13 @@ var Modals = (function () {
                         gt.body.appendChild(row);
                     })
                 },
-                changeClass: () => {
+                changeClass:() => {
                     if(gt.btn.className=="active"){
                         gt.btn.className="nactive";
                         lt.btn.className="active";
                         gt.table.style.display="none";
                         lt.table.style.display="table";    
                     }else{
-                        const HttpRequest = new XMLHttpRequest();
-                        HttpRequest.open("POST",url+"ranking");
-                        HttpRequest.onreadystatechange=()=>{
-                            if(HttpRequest.readyState!=4)
-                                return;
-                
-                            if(HttpRequest.status ==200){
-                                Modals.Class.removeGlobal();
-                                Modals.Class.addGlobal(JSON.parse(HttpRequest.response).ranking);
-                            }
-                            else{
-                                Modals.Msgs.edit({
-                                    title:"Ranking Error",
-                                    message:"There was an error with the request of rank",
-                                    buttons:[
-                                        {
-                                            text: "Ok",
-                                            callback: Modals.Msgs.toggle,
-                                        }
-                                    ]
-                                })
-                            }
-                        }
-                        HttpRequest.send(JSON.stringify({
-                            "group":group,
-                            "size":6,
-                        })); 
                         gt.btn.className="active";
                         lt.btn.className="nactive";
                         gt.table.style.display="table";

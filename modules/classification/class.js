@@ -56,3 +56,18 @@ var classTable = (() =>{
 
 //add entries saved in local storage
 Modals.Class.addLocal(classTable.getEntries());
+//add event listener to refresh ranking
+Utils.getById("globalBtn").addEventListener("click",async () => {
+    await makeRequest({
+        command:"ranking",
+        group:true,
+        debug:false,
+        body:{
+            "size":conf.size,
+        },
+        okCallback: (response) => {
+            Modals.Class.removeGlobal();
+            Modals.Class.addGlobal(response.ranking);
+        },
+    })
+});
