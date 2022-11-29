@@ -14,20 +14,20 @@ function restartBtn(){
 
 
 Utils.getById("playBtn").addEventListener("click",()=>{
-    Utils.getById("playBtn").style.display="none";
-    Utils.getById("giveUpBtn").style.display="block";
-    Utils.getById("configBtn").style.display="none";
+    Utils.getById("playBtnWrapper").style.display="none";
+    Utils.getById("giveUpBtnWrapper").style.display="block";
+    Utils.getById("configBtnWrapper").style.display="none";
 
-    game.start();
+    game.game();
 });
 
 Utils.getById("configBtn").addEventListener("click", Modals.Config.toggle);
 
 
 Utils.getById("giveUpBtn").addEventListener("click",() => {
-    Utils.getById("playBtn").style.display="block";
-    Utils.getById("configBtn").style.display="block";
-    Utils.getById("giveUpBtn").style.display="none";
+    Utils.getById("playBtnWrapper").style.display="block";
+    Utils.getById("configBtnWrapper").style.display="block";
+    Utils.getById("giveUpBtnWrapper").style.display="none";
 
     //config.giveUp();
 });

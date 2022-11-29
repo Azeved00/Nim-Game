@@ -29,27 +29,30 @@ class Game {
     
     finish(){
         for(let i = 0; i < this.size; i++){
-            if (this.rack[i] == 0)
-                return true;
+            if (this.rack[i] != 0)
+                return false;
         }
-        return false;
+        return true;
     }
 
-    start(){
+    game(){
         if(!this.inGame){
             this.reload();
             this.inGame = true;
         }
         
         if(this.playing === false)            
-            ai(this);
+            AI(this);
         this.draw();
 
         Game.board.querySelectorAll("li").forEach((ball) => {
         ball.addEventListener("click", (e) => {
                 var otr = e.target.dataset.number,
                     coll = e.target.parentNode.dataset.number;
-                this.move(coll,otr);
+                this.play({
+                    "pile":coll,
+                    "otr":otr
+                });
                 this.game();
             });
         });
@@ -98,7 +101,7 @@ class Game {
                 cls: "coll",
             });
             coll.style.setProperty('--ball-size', this.cssSize);
-            coll.dataset.number=i+1;
+            coll.dataset.number=i;
             for(let j = 0; j < this.rack[i]; j++){
                 let ball = Utils.createElem({
                     tag: "li",
@@ -125,36 +128,32 @@ class Game {
         }
     }
 
-
     //takes object with col and ball
     play(input){
         let opt = Utils.setDefaults(input,{
-            balls: -1,
+            otr: -1,
         })
         if(!this.inGame)
             return false;
 
-        opt.col = parseInt(opt.col);
-        opt.balls = parseInt(opt.balls);
-        if(Utils.isNOE(opt.col) || Utils.IsNOE(opt.balls) ) return false;
-        opt.col-=1;
+        opt.pile = parseInt(opt.pile);
+        opt.otr = parseInt(opt.otr);
+        if(opt.pile !== 0  && Utils.isNOE(opt.pile) || Utils.isNOE(opt.otr)) return false;
 
-        if(opt.balls === -1){
-            this.rack[opt.col] = 0;
-        }
-        else{
-            this.rack[opt.col]-=opt.balls; 
-        }
+        if(opt.otr === -1)
+            this.rack[opt.pile] = 0;
+        else
+            this.rack[opt.pile]-=opt.otr; 
 
-        if(this.rack[col] < 0){ 
-            this.rack[col] = 0;
-        }
+        if(this.rack[opt.pile] < 0) 
+            this.rack[opt.pile] = 0;
 
         this.playing=!this.playing;
 
         Messages.add(`Taken ${opt.balls} balls from ${opt.col+1} collumn;`);
         return true;
     }
+
     giveUp(){
         if(this.inGame){
             this.board.innerHTML="";

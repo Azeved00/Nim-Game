@@ -1,10 +1,10 @@
 function AI (b) {
     function bestMv(b){
         let nimSum = b.nimSum(),
-            piles = b.balls,
+            piles = b.rack,
             move = { pile: -1, otr: -1};
 
-        for (let i = 0; i < b.colls; i++){
+        for (let i = 0; i < b.size; i++){
             if ((piles[i] ^ nimSum) < piles[i]){
                 move.pile = i;
                 move.otr = piles[i] - (piles[i] ^ nimSum);
@@ -16,12 +16,12 @@ function AI (b) {
     }
 
     function randomMv(b){
-        let non_zero_indices = new Array(b.colls),
+        let non_zero_indices = new Array(b.size),
             count= 0,
-            piles = b.balls,
+            piles = b.rack,
             move = { pile: -1, otr: -1};
 
-        for (let i=0; i<b.colls; i++)
+        for (let i=0; i<b.size; i++)
             if (piles[i] > 0)
                 non_zero_indices [count++] = i;
 
@@ -31,12 +31,12 @@ function AI (b) {
         return move;
     }
     
-    var mv = {col: -1, balls: -1};
+    var mv = {pile: -1, otr: -1};
     if(b.nimSum() == 0){
         mv = randomMv(b);
     }
     else{
-        switch (b.diff){
+        switch (b.config.lvl){
             case 1:
                 mv = randomMv(b);
                 break;
@@ -53,7 +53,6 @@ function AI (b) {
         }
     }
 
-    mv.colls+=1;
-    b.move(mv);
+    b.play(mv);
 }
 
