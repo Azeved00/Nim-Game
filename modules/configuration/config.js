@@ -31,16 +31,28 @@ class Config {
         if(!valid) return null;
         
         
-        conf = new Config(size,first,ai,lvl);
+        conf = new Config({
+            size: size,
+            first:first,
+            ai:ai,
+            lvl:lvl
+        });
         return conf;
     }
 
-    constructor(n,f,a,l){
-        this.size = n;
-        this.first = f;
-        this.ai = a;
-        this.lvl = l;
-        console.log(this);
+    constructor(input){
+        let opt = Utils.setDefaults(input,{
+            size : 5,
+            first: true,
+            ai : true,
+            lvl : 2,
+            debug: false,
+        }); 
+        this.size = opt.size;
+        this.first = opt.first;
+        this.ai = opt.ai;
+        this.lvl = opt.lvl;
+        if(opt.debug) console.log(this);
     }
 }
 

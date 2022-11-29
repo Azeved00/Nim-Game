@@ -18,7 +18,7 @@ Utils.getById("playBtn").addEventListener("click",()=>{
     Utils.getById("giveUpBtn").style.display="block";
     Utils.getById("configBtn").style.display="none";
 
-    var game = new Game();
+    game.start();
 });
 
 Utils.getById("configBtn").addEventListener("click", Modals.Config.toggle);
@@ -29,7 +29,7 @@ Utils.getById("giveUpBtn").addEventListener("click",() => {
     Utils.getById("configBtn").style.display="block";
     Utils.getById("giveUpBtn").style.display="none";
 
-    config.giveUp();
+    //config.giveUp();
 });
 
 Utils.getById("classBtn").addEventListener("click", Modals.Class.toggle);

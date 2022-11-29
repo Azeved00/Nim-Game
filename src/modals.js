@@ -148,7 +148,8 @@ var Modals = (function () {
                     let opt = Utils.setDefaults(input,{
                         title: "Information",
                         message:"Some Information",
-                        buttons:[]
+                        buttons:[],
+                        show:false,
                     });
                     m.innerHTML="";
 
@@ -187,8 +188,8 @@ var Modals = (function () {
                         footer.appendChild(b);
                     })
                     m.appendChild(footer);   
+                    if(input.show)Modals.Msgs.toggle();
                 }
-
             }
         })()
     }

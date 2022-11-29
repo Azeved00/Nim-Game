@@ -1,12 +1,22 @@
 
 class Game {
     static board = Utils.getById("Board");
-
-    constructor(n,ai,start,dificulty){
-        this.config = new Config(n);
-        this.playing = start;   // who is playing right now 
+    
+    reload(){
+        this.playing = this.config.first;
+        for(let i = 0; i < this.config.size;i++){
+            this.rack[i] = i+1;
+        }
+    }
+    
+    constructor(conf){
+        this.config = conf;
+        this.playing = conf.first;   // who is playing right now 
         this.inGame = false;    // 
-        this.size = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.colls + '*2*0.2em - 3em)/' + this.colls + ')';;      // size of the balls
+        this.cssSize = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.config.size + '*2*0.2em - 3em)/' + this.config.size + ')';      // size of the balls
+        this.rack = [];
+        this.size = conf.size;
+        this.reload();
     }
 
     nimSum(){
@@ -18,11 +28,11 @@ class Game {
     }
     
     finish(){
-        for(let i = 0; i < this.config.size; i++){
+        for(let i = 0; i < this.size; i++){
             if (this.rack[i] == 0)
-                return false
+                return true;
         }
-        return true;
+        return false;
     }
 
     start(){
@@ -35,7 +45,7 @@ class Game {
             ai(this);
         this.draw();
 
-        this.board.querySelectorAll("li").forEach((ball) => {
+        Game.board.querySelectorAll("li").forEach((ball) => {
         ball.addEventListener("click", (e) => {
                 var otr = e.target.dataset.number,
                     coll = e.target.parentNode.dataset.number;
@@ -46,29 +56,76 @@ class Game {
 
 
         if(this.finish()){
-            if(this.playing){
-                let res = "Computer Won!"
-                modal("FinishMessage", res);
-                writeMessage(res);
-                classTable.addEntry("demo", this.ai, this.diff, this.false);
-            }
-            else{
-                let res ="Congratulations, You won the game!"
-                modal("FinishMessage",res);
-                writeMessage(res);
-                classTable.addEntry("demo",this.ai ,this.diff,true);
-            }
+            let res = ""
+            if(this.playing) res = "Computer Won!";
+            else res = "Congratulations, You won the game!";
+            
+            Modals.Msgs.edit({
+                title:"Finished Game!",
+                show:true,
+                message:res,
+                buttons:[
+                    {
+                        text:"Ok",
+                        callback: Modals.Msgs.toggle,
+                    },
+                    {
+                        text:"Restart",
+                        callback:() => {
+                            this.reload();
+                            Modals.Msgs.toggle();
+                        }
+                    }
+                ]
+            })
+            Messages.add(res);
+            classTable.addEntry({
+                user:Navbar.getUser(),
+                ai: this.ai,
+                lvl: this.diff,
+                vic: !this.playing
+            });
             this.reload();
-            writeMessage("Play Again?");
+            Messages.add("Play Again?");
         }
     }
-    draw(){}
-    reload(){
-        this.playing = this.config.start;
-        for(let i = 0; i < this.config.size;i++){
-            this.balls[i] = i+1;
+
+    draw(){
+        Game.board.innerHTML = "";        
+        for(let i = 0; i < this.size; i++){
+            let coll = Utils.createElem({
+                tag: "ul",
+                cls: "coll",
+            });
+            coll.style.setProperty('--ball-size', this.cssSize);
+            coll.dataset.number=i+1;
+            for(let j = 0; j < this.rack[i]; j++){
+                let ball = Utils.createElem({
+                    tag: "li",
+                    cls: "ball"
+                });
+                ball.style.setProperty('--ball-size', this.cssSize);
+                ball.addEventListener("mouseover", (e) => {
+                    e.target.className = "hovered-ball";
+                    let prev = e.target.previousSibling;
+                    if(prev)
+                        Utils.triggerEvent(prev, "mouseover");
+                });
+                ball.addEventListener("mouseout", (e) => {
+                    e.target.className = "ball";
+                    let prev = e.target.previousSibling;
+                    if(prev)
+                        Utils.triggerEvent(prev, "mouseout");
+                });
+
+                ball.dataset.number=j+1;
+                coll.appendChild(ball);
+            }
+            Game.board.appendChild(coll);
         }
-    },
+    }
+
+
     //takes object with col and ball
     play(input){
         let opt = Utils.setDefaults(input,{
@@ -95,7 +152,7 @@ class Game {
 
         this.playing=!this.playing;
 
-        writeMessage(`Taken ${opt.balls} balls from ${opt.col+1} collumn;`);
+        Messages.add(`Taken ${opt.balls} balls from ${opt.col+1} collumn;`);
         return true;
     }
     giveUp(){
@@ -108,49 +165,10 @@ class Game {
                 ai: this.config.lvl,
                 vic: false,
             });
-            writeMessage("You gave um on the game!");
+            Messages.add("You gave um on the game!");
         }
         else{
-            writeMessage("Game not in progress!");
+            Messages.add("Game not in progress!");
         }
     }
 }
-
-let config = {
-    draw() {
-        var board = getById("Board");
-        board.innerHTML = "";        
-        for(var i = 0; i < this.colls; i++){
-            var coll = createElem("ul");
-            coll.className="coll";
-            coll.style.setProperty('--ball-size', this.size);
-            coll.dataset.number=i+1;
-            for(var j = 0; j < this.balls[i]; j++){
-                var ball = createElem("li");
-                ball.className="ball";
-                ball.style.setProperty('--ball-size', this.size);
-                ball.addEventListener("mouseover", (e) => {
-                    e.target.className = "hovered-ball";
-                    var prev = e.target.previousSibling;
-                    if(prev)
-                        triggerEvent(prev, "mouseover");
-                });
-                ball.addEventListener("mouseout", (e) => {
-                    e.target.className = "ball";
-                    var prev = e.target.previousSibling;
-                    if(prev)
-                        triggerEvent(prev, "mouseout");
-                });
-
-                ball.dataset.number=j+1;
-                coll.appendChild(ball);
-            }
-            board.appendChild(coll);
-        }
-    },
-
-    reload(){
-
-    }
-    
-};
