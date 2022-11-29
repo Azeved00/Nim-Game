@@ -3,6 +3,7 @@ var Navbar =(function () {
     let outWrapper  = Utils.getById("logoutWrapper");
     let form = Utils.getById("loginForm");
     let token = "login-token";
+    let tpass = "password-token";
     (()=>{
         let usr = localStorage.getItem(token);
         if(Utils.isNOE(usr))
@@ -11,6 +12,9 @@ var Navbar =(function () {
     return {
         getUser:()=>{
             return localStorage.getItem(token);
+        },
+        getPassword: () => {
+            return localStorage.getItem(tpass);
         },
         logIn:() => {
             if(form.style.display === "none"){
@@ -32,6 +36,7 @@ var Navbar =(function () {
                     inWrapper.style.display="none";
                     outWrapper.style.display="inherit";
                     localStorage.setItem(token,user);
+                    localStorage.setItem(tpass,pass);
                 },
                 badCallback: () => {
                     Utils.getById("pass").value="";
