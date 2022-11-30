@@ -1,16 +1,3 @@
-function closeBtn(){
-    Utils.getById("playBtn").style.display="block";
-    Utils.getById("configBtn").style.display="block";
-    Utils.getById("giveUpBtn").style.display="none";
-
-    modal("FinishMessage");
-    config.reload();
-}
-
-function restartBtn(){
-    modal("FinishMessage");
-    config.game();
-}
 
 
 Utils.getById("playBtn").addEventListener("click",()=>{
@@ -19,7 +6,6 @@ Utils.getById("playBtn").addEventListener("click",()=>{
     Utils.getById("configBtnWrapper").style.display="none";
 
     game = new Game(conf);
-    //game.game();//this needs some changing
 });
 
 Utils.getById("configBtn").addEventListener("click", Modals.Config.toggle);
@@ -30,7 +16,7 @@ Utils.getById("giveUpBtn").addEventListener("click",() => {
     Utils.getById("configBtnWrapper").style.display="block";
     Utils.getById("giveUpBtnWrapper").style.display="none";
 
-    //config.giveUp();
+    game.giveUp();
 });
 
 Utils.getById("classBtn").addEventListener("click", Modals.Class.toggle);

@@ -1,4 +1,4 @@
-function AI (b) {
+async function AI (b) {
     function bestMv(b){
         let nimSum = b.nimSum(),
             piles = b.rack,
@@ -31,7 +31,7 @@ function AI (b) {
         return move;
     }
     
-    var mv = {pile: -1, otr: -1};
+    let mv = {pile: -1, otr: -1};
     if(b.nimSum() == 0){
         mv = randomMv(b);
     }
@@ -53,6 +53,9 @@ function AI (b) {
         }
     }
 
+    mv.isAi=true;
+    await Utils.sleep(1000);
     b.play(mv);
+    Game.trigger("play");
 }
 

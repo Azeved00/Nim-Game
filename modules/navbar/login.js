@@ -37,6 +37,7 @@ var Navbar =(function () {
                     outWrapper.style.display="inherit";
                     localStorage.setItem(token,user);
                     localStorage.setItem(tpass,pass);
+                    Utils.triggerEvent(Utils.getById("Board"),"login");
                 },
                 badCallback: () => {
                     Utils.getById("pass").value="";
@@ -44,6 +45,7 @@ var Navbar =(function () {
             })
         },
         logOut:()=>{
+            Utils.triggerEvent(Utils.getById("Board"),"logout");
             outWrapper.style.display="none";
             inWrapper.style.display="inherit";
             Utils.getById("userLabel").innerHTML="";

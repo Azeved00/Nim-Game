@@ -1,4 +1,7 @@
 var Utils = {
+    sleep:(ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    },
     isNOE: (a) => {
         return !a;
     },

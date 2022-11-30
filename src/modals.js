@@ -150,6 +150,7 @@ var Modals = (function () {
                         message:"Some Information",
                         buttons:[],
                         show:false,
+                        closeBtn:true,
                     });
                     m.innerHTML="";
 
@@ -160,9 +161,11 @@ var Modals = (function () {
                         tag:"h2",
                         text: opt.title,
                     }));
-                    let closeBtn = Utils.createElem({tag:"button",text:"X",cls:"close-btn"});
-                    closeBtn.onclick = Modals.Msgs.toggle;
-                    header.appendChild(closeBtn);
+                    if(opt.closeBtn){
+                        let closeBtn = Utils.createElem({tag:"button",text:"X",cls:"close-btn"});
+                        closeBtn.onclick = Modals.Msgs.toggle;
+                        header.appendChild(closeBtn);
+                    }
 
                     m.appendChild(header);
                     
