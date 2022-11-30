@@ -25,6 +25,7 @@ class Game {
         g.rack = t.rack;
         g.playing = t.playing;
         Game.trigger("play");
+        Utils.triggerEvent(Utils.getById("commandsTab"),"gameLoaded");
         return g;
     }
 
@@ -306,5 +307,6 @@ Game.board.addEventListener("logout", () => {
     if(game){
         game.save();
         game.end();
+        Utils.triggerEvent(Utils.getById("commandsTab"),"gameUnloaded")
     }
 })
