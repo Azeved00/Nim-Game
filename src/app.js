@@ -5,8 +5,6 @@ var conf = new Config({
     debug: false,
     lvl: 2
 });
-var game = new Game(conf);
 showSection("Logo");
-
-
+var game;
 

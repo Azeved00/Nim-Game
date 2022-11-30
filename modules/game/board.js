@@ -1,23 +1,54 @@
 
 class Game {
     static board = Utils.getById("Board");
-    
-    reload(){
-        this.playing = this.config.first;
-        for(let i = 0; i < this.config.size;i++){
-            this.rack[i] = i+1;
-        }
+
+    async setUp () {
+        await makeRequest({
+            "command" : "join",
+            "body": {
+                "nick": Navbar.getUser(),
+                "password": Navbar.getPassword(),
+                "size": this.size,
+            },
+            "group":true,
+            "okCallback": (body) => {
+                this.id = body.game;
+            },
+        })
+        let url = `http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=${Navbar.getUser()}&game=${this.id}`
+        this.eventSource = new EventSource(url);
+        console.log(this.id);
     }
-    
+    ai(){
+        //this function is in another file
+        AI(this);
+    }
+
     constructor(conf){
         this.config = conf;
-        this.playing = conf.first;   // who is playing right now 
-        this.inGame = false;    // 
-        this.cssSize = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.config.size + '*2*0.2em - 3em)/' + this.config.size + ')';      // size of the balls
-        this.rack = [];
         this.size = conf.size;
-        this.reload();
+        this.inGame = false; 
+        this.rack = [];
+
+        this.playing = conf.first;   // who is playing right now 
+        this.cssSize = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.config.size + '*2*0.2em - 3em)/' + this.config.size + ')';      // size of the balls
+        
+        // prepare everything 
+        for(let i = 0; i < this.config.size;i++){
+            this.rack[i] = i+1;
+        } 
+        if(this.config.ai){
+            if(!this.playing)
+                this.ai();
+        } 
+        else 
+            this.setUp();
+
+        Game.board.addEventListener("play",() => {
+            this.draw();
+        });
     }
+
 
     nimSum(){
         let sum = 0;
@@ -126,6 +157,19 @@ class Game {
             }
             Game.board.appendChild(coll);
         }
+
+        Game.board.querySelectorAll("li").forEach((ball) => {
+        ball.addEventListener("click", (e) => {
+                var otr = e.target.dataset.number,
+                    coll = e.target.parentNode.dataset.number;
+                this.play({
+                    "pile":coll,
+                    "otr":otr
+                });
+                this.game();
+            });
+        });
+
     }
 
     //takes object with col and ball
