@@ -2,12 +2,12 @@ var conf;
 var game;
 showSection("Logo");
 
-//this is to simplify debugging
+//this is to initiate the program more esily
 showSection("Play");
 conf= new Config({
     size: 5,
     first: true,
-    ai: true,
+    ai: false,
     debug: false,
     lvl: 2
 });

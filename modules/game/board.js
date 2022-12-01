@@ -102,9 +102,10 @@ class Game {
         else{
             if(this.ai && this.playing === false) 
                 this.ai();
+
+            this.save();
         }
 
-        this.save();
     }
 
     save(){
@@ -295,7 +296,19 @@ class Game {
     end(){
         Game.board.innerHTML="";
         Game.board.onplay = () => {};
+        if(!this.config.ai)
+            this.eventSource.close();
         delete this;
+
+        let ls = localStorage.getItem(Game.token);
+        if(!ls) return;
+        let arr = JSON.parse(ls).ingame;
+        arr.forEach((elem,i)=>{
+            if(elem.user  == Navbar.getUser()){
+                arr.splice(i,1);
+            }
+        })
+        localStorage.setItem(Game.token,JSON.stringify({ingame:arr}));
     }
 }
 
