@@ -191,7 +191,11 @@ var Modals = (function () {
                         footer.appendChild(b);
                     })
                     m.appendChild(footer);   
-                    if(input.show)Modals.Msgs.toggle();
+                    if(input.show){
+                        if(m.style.display==="flex")
+                            Modals.Msgs.toggle();
+                        Modals.Msgs.toggle();
+                    }
                 }
             }
         })()

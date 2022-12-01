@@ -20,8 +20,8 @@ class Game {
             }
         })
         if(!t)return null;        
-
-        let g = new Game(t.config,t.user);
+    
+        let g = new Game(t.config,t.id);
         g.rack = t.rack;
         g.playing = t.playing;
         Game.trigger("play");
@@ -63,7 +63,6 @@ class Game {
                             text:"Ok",
                             callback: () => {
                                 Modals.Msgs.toggle();
-                                closeBtn();
                             },
                         }
                     ]
@@ -112,7 +111,6 @@ class Game {
 
             this.save();
         }
-
     }
 
     save(){
@@ -123,7 +121,8 @@ class Game {
         temp.config = this.config;
         temp.rack = this.rack;
         temp.playing = this.playing;
-        if(temp.config.ai)temp.id = this.id;
+        if(!this.config.ai)
+            temp.id = this.id;
 
         let ls = localStorage.getItem(Game.token);
         let arr=[];
@@ -140,7 +139,7 @@ class Game {
         localStorage.setItem(Game.token,JSON.stringify({ingame:arr}));
     }
 
-    constructor(conf,id=""){
+    constructor(conf){
         this.config = conf;
         this.size = conf.size;
         this.rack = [];
@@ -163,7 +162,6 @@ class Game {
             this.id = id;
             this.setUp();
         }
-
     }
 
     nimSum(){
@@ -210,7 +208,7 @@ class Game {
         })
         classTable.addEntry({
             user:Navbar.getUser(),
-            ai: this.ai,
+            ai: this.config.ai,
             lvl: this.diff,
             vic: !this.playing
         });
@@ -320,7 +318,7 @@ class Game {
         return true;
     }
 
-    giveUp(){
+    async giveUp(){
         Modals.Msgs.edit({
             title:"Finished Game!",
             show:true,
@@ -341,13 +339,20 @@ class Game {
         if(this.config.ai){
             classTable.addEntry({
                 user:Navbar.getUser(),
-                ai: this.ai,
-                lvl: this.diff,
+                ai: this.config.ai,
+                lvl: this.config.lvl,
                 vic: false,
             });
         }
         else{
-            //do smth here
+            await makeRequest({
+                command:"leave",
+                body:{
+                    nick: Navbar.getUser(),
+                    password: Navbar.getPassword(),
+                    game: this.id
+                }
+            })
         }
         this.end();
         Messages.add("You gave up the the game!");

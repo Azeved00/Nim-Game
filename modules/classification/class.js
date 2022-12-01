@@ -55,7 +55,9 @@ var classTable = (() =>{
 })()
 
 //add entries saved in local storage
-Modals.Class.addLocal(classTable.getEntries());
+Utils.getById("localBtn").addEventListener("click", () => {
+    Modals.Class.addLocal(classTable.getEntries());
+})
 //add event listener to refresh ranking
 Utils.getById("globalBtn").addEventListener("click",async () => {
     await makeRequest({
