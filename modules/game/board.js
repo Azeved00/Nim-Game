@@ -48,9 +48,52 @@ class Game {
 
         let url = `http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=${Navbar.getUser()}&game=${this.id}`
         this.eventSource = new EventSource(url);
-        this.eventSource.onmessage = (message) => {
-            const data = JSON.parse(message);
+        this.eventSource.onmessage = (ev) => {
+            const data = JSON.parse(ev.data);
             console.log(data);
+            if(this.inGame === false){
+                this.inGame = true;
+                Modals.Msgs.edit({
+                    title:"Game Started!",
+                    show:true,
+                    message:"Opponent was found and the game has started",
+                    closeBtn:true,
+                    buttons:[
+                        {
+                            text:"Ok",
+                            callback: () => {
+                                Modals.Msgs.toggle();
+                                closeBtn();
+                            },
+                        }
+                    ]
+                })
+            }
+            this.rack = data.rack;
+            this.turn = (Navbar.getUser() == data.turn);
+            Game.trigger("play");
+
+            if(data.winner){
+                let res;
+                if(data.winner == Navbar.getUser()) res = "You Won!";
+                else res = "You Lost!";
+                Modals.Msgs.edit({
+                    title:"Game Finished!",
+                    show:true,
+                    message:res,
+                    closeBtn:false,
+                    buttons:[
+                        {
+                            text:"Ok",
+                            callback: () => {
+                                Modals.Msgs.toggle();
+                                closeBtn();
+                            },
+                        }
+                    ]
+                })
+                this.end();
+            }
         }
     }
     
@@ -62,44 +105,7 @@ class Game {
     main(){
         this.draw();
         //this needs to be redone
-        if(this.finish()){
-            let res = ""
-            if(this.playing) res = "Computer Won!";
-            else res = "Congratulations, You won the game!";
-            
-            Modals.Msgs.edit({
-                title:"Finished Game!",
-                show:true,
-                message:res,
-                closeBtn:false,
-                buttons:[
-                    {
-                        text:"Ok",
-                        callback: () => {
-                            Modals.Msgs.toggle();
-                            closeBtn();
-                        },
-                    },
-                    {
-                        text:"Restart",
-                        callback:() => {
-                            this.end();
-                            game = new Game(conf);
-                            Modals.Msgs.toggle();
-                        }
-                    }
-                ]
-            })
-            classTable.addEntry({
-                user:Navbar.getUser(),
-                ai: this.ai,
-                lvl: this.diff,
-                vic: !this.playing
-            });
-            this.end();
-            Messages.add(res);
-        }
-        else{
+        if(!this.finish()){
             if(this.ai && this.playing === false) 
                 this.ai();
 
@@ -131,13 +137,13 @@ class Game {
         if(a)arr.push(temp);
 
         localStorage.setItem(Game.token,JSON.stringify({ingame:arr}));
-
     }
 
     constructor(conf,id=""){
         this.config = conf;
         this.size = conf.size;
         this.rack = [];
+        this.inGame = false;
 
         this.playing = conf.first;   // who is playing right now 
         this.cssSize = 'calc((100vh - var(--navbar-height) - 2*var(--navbar-margin-y) - '+ this.config.size + '*2*0.2em - 3em)/' + this.config.size + ')';      // size of the balls
@@ -150,7 +156,9 @@ class Game {
 
 
         Game.trigger("play");
-        if(!this.config.ai){
+        if(this.config.ai)
+            this.inGame = true;
+        else{
             this.id = id;
             this.setUp();
         }
@@ -170,6 +178,43 @@ class Game {
             if (this.rack[i] != 0)
                 return false;
         }
+
+
+        let res = ""
+        if(this.playing) res = "Computer Won!";
+        else res = "Congratulations, You won the game!";
+        
+        Modals.Msgs.edit({
+            title:"Finished Game!",
+            show:true,
+            message:res,
+            closeBtn:false,
+            buttons:[
+                {
+                    text:"Ok",
+                    callback: () => {
+                        Modals.Msgs.toggle();
+                        closeBtn();
+                    },
+                },
+                {
+                    text:"Restart",
+                    callback:() => {
+                        this.end();
+                        game = new Game(conf);
+                        Modals.Msgs.toggle();
+                    }
+                }
+            ]
+        })
+        classTable.addEntry({
+            user:Navbar.getUser(),
+            ai: this.ai,
+            lvl: this.diff,
+            vic: !this.playing
+        });
+        this.end();
+        Messages.add(res);
         return true;
     }
 
@@ -226,6 +271,20 @@ class Game {
             otr: -1,
             isAi: false,
         })
+        if(this.inGame == false){            
+            Modals.Msgs.edit({
+                title:"Invalid Move",
+                show:true,
+                message:"Game has not started!",
+                buttons:[
+                    {
+                        text:"Ok",
+                        callback: Modals.Msgs.toggle,
+                    }
+                ]
+            })
+            return false;
+        }
         if(this.playing === true && opt.osAi ===false) return false;
         if(this.playing === false && opt.isAi === false){
             Modals.Msgs.edit({
