@@ -69,10 +69,6 @@ class Game {
                     ]
                 })
             }
-            this.rack = data.rack;
-            this.turn = (Navbar.getUser() == data.turn);
-            Game.trigger("play");
-
             if(data.winner){
                 let res;
                 if(data.winner == Navbar.getUser()) res = "You Won!";
@@ -93,6 +89,11 @@ class Game {
                     ]
                 })
                 this.end();
+            }
+            else{
+                this.rack = data.rack;
+                this.turn = (Navbar.getUser() == data.turn);
+                Game.trigger("play");
             }
         }
     }
