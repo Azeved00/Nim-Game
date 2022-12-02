@@ -21,7 +21,11 @@ class Game {
         })
         if(!t)return null;        
     
-        let g = new Game(t.config,t.id);
+        let g;
+        if(t.config.ai)
+            g = new Game(t.config)
+        else
+            g = new Game(t.config,t.id);
         g.rack = t.rack;
         g.playing = t.playing;
         Game.trigger("play");
