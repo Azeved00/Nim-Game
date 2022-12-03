@@ -19,7 +19,11 @@ Utils.getById("giveUpBtn").addEventListener("click",() => {
     game.giveUp();
 });
 
-Utils.getById("classBtn").addEventListener("click", Modals.Class.toggle);
+Utils.getById("classBtn").addEventListener("click", () => {
+    Utils.triggerEvent(Utils.getById("localBtn"),"click");
+    Utils.triggerEvent(Utils.getById("localBtn"),"click");
+    Modals.Class.toggle();
+});
 Utils.getById("messageBtn").addEventListener("click", Messages.toggleDisplay);
 Utils.getById("rulesBtn").addEventListener("click", Modals.Rules.toggle)
 

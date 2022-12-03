@@ -56,6 +56,7 @@ var classTable = (() =>{
 
 //add entries saved in local storage
 Utils.getById("localBtn").addEventListener("click", () => {
+    Modals.Class.removeLocal();
     Modals.Class.addLocal(classTable.getEntries());
 })
 //add event listener to refresh ranking

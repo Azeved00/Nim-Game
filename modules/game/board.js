@@ -21,11 +21,7 @@ class Game {
         })
         if(!t)return null;        
     
-        let g;
-        if(t.config.ai)
-            g = new Game(t.config)
-        else
-            g = new Game(t.config,t.id);
+        let g = new Game(t.config)
         g.rack = t.rack;
         g.playing = t.playing;
         Game.trigger("play");
@@ -110,14 +106,16 @@ class Game {
         this.draw();
         //this needs to be redone
         if(!this.finish()){
-            if(this.ai && this.playing === false) 
+            if(this.config.ai===true && this.playing === false){
                 this.ai();
-
-            this.save();
+                this.save();
+            } 
         }
     }
 
     save(){
+        if(!this.config.ai) return false;
+
         let temp = {};
         temp.user = Navbar.getUser();
         if(temp.user === "")
@@ -125,8 +123,6 @@ class Game {
         temp.config = this.config;
         temp.rack = this.rack;
         temp.playing = this.playing;
-        if(!this.config.ai)
-            temp.id = this.id;
 
         let ls = localStorage.getItem(Game.token);
         let arr=[];
@@ -163,7 +159,6 @@ class Game {
         if(this.config.ai)
             this.inGame = true;
         else{
-            this.id = id;
             this.setUp();
         }
     }
@@ -213,7 +208,7 @@ class Game {
         classTable.addEntry({
             user:Navbar.getUser(),
             ai: this.config.ai,
-            lvl: this.diff,
+            lvl: this.config.lvl,
             vic: !this.playing
         });
         this.end();
@@ -263,7 +258,7 @@ class Game {
                     "pile":coll,
                     "otr":otr
                 }))
-                    Game.trigger("play");
+                Game.trigger("play");
             });
         });
     }
