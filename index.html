@@ -75,6 +75,9 @@
                 <li id="configBtnWrapper">
                     <button id="configBtn" type="button">Configuration</button>
                 </li>
+                 <li id="cancelBtnWrapper" style="display:none;">
+                    <button id="cancelBtn" type="button">Cancel Search</button>
+                </li>               
                 <li id="giveUpBtnWrapper" style="display:none;">
                     <button id="giveUpBtn" type="button">Give Up</button>
                 </li>
@@ -106,18 +109,22 @@
                 <button type="button" class="close-btn">x</button>
             </div>
             <div class="modal-body">
-                <form id="configForm" action="./app.js" method="post">
+                <div id="btn-wrapper">
+                    <button id="singleBtn">SinglePlayer</button>
+                    <button id="multiBtn">Multiplayer</button>
+                </div>
+                <form id="multiForm">
+                    <label for="multiSize"> Number of collumns:</label>
+                    <input id="multiSize" type="number" value="5">
+                </form>
+                <form id="singleForm" action="./app.js" method="post">
                     <div>
-                        <label for="size"> Number of collumns</label>
-                        <input id="size" type="number" value="5">
+                        <label for="singleSize"> Number of collumns</label>
+                        <input id="singleSize" type="number" value="5">
                     </div>
                     <div>
                         <label for="first"> Play first?</label>
                         <input id="first" type="checkbox">
-                    </div>
-                    <div>
-                        <label for="bot">Play Agains AI ?</label>
-                        <input id="bot" type="checkbox">
                     </div>
                     <div>
                         <p>Select Ai Dificulty:</p>

@@ -2,3 +2,17 @@
     color: red;
     text-align: center;
 }
+#Config form{
+    display:none;
+}
+#btn-wrapper{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#Config .modal-body button{
+    margin: 1em;
+    padding: 0.8em 1em;
+    height: 30%;
+}

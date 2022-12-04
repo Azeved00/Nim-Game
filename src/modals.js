@@ -19,7 +19,7 @@ var Modals = (function () {
             (()=>{
                 m.querySelectorAll(".close-btn")
                 .forEach( (btn) => {
-                    btn.onclick = () =>{Modals.Config.toggle()};
+                    btn.onclick = () =>{Config.reset();Modals.Config.toggle()};
                 })
             })();
             return {
