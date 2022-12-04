@@ -4,17 +4,34 @@ var Navbar =(function () {
     let form = Utils.getById("loginForm");
     let token = "login-token";
     let tpass = "password-token";
+    let savedUser = "";
+    let savedPassword ="";
     (()=>{
         let usr = localStorage.getItem(token);
-        if(Utils.isNOE(usr))
+        if(usr){
+            outWrapper.style.display="inherit";
+            Utils.getById("userLabel").innerHTML=usr;
+            inWrapper.style.display="none";
+            savedUser = usr;
+            savedPassword = localStorage.getItem(tpass);
+        }
+        else{
             localStorage.setItem(token,"");
+            outWrapper.style.display="none";
+            inWrapper.style.display="inherit";
+            Utils.getById("userLabel").innerHTML="";
+        }
     })()
     return {
         getUser:()=>{
-            return localStorage.getItem(token);
+            if(savedUser === "") 
+                return localStorage.getItem(token);
+            else return savedUser;
         },
         getPassword: () => {
-            return localStorage.getItem(tpass);
+            if(savedPassword === "")
+                return localStorage.getItem(tpass);
+            else return savedPassword;
         },
         logIn:() => {
             if(form.style.display === "none"){
@@ -22,9 +39,27 @@ var Navbar =(function () {
                 return true;
             }
 
-            var user = Utils.getById("user").value;
-            var pass = Utils.getById("pass").value;
-            
+            let user = Utils.getById("user").value;
+            if(user.length < 2){
+                Modals.Msgs.edit({
+                    title:"User name is to small.",
+                    show:true,
+                    message:"User name should be at least 3 characters long.",
+                    closeBtn:true,
+                    buttons:[
+                        {
+                            text:"Ok",
+                            callback: () => {
+                                Modals.Msgs.toggle();
+                            },
+                        }
+                    ]
+                })
+                return false;
+            }
+            let pass = Utils.getById("pass").value;
+            savedUser = user;
+            savedPass = pass;
             makeRequest({
                 command:"register",
                 body:{
@@ -50,20 +85,9 @@ var Navbar =(function () {
             inWrapper.style.display="inherit";
             Utils.getById("userLabel").innerHTML="";
             form.style.display="none";
+            savedUser="";
+            savedPassword="";
             localStorage.setItem(token,"");
-        },
-        checkLogin:()=>{
-            let usr = localStorage.getItem(token);
-            if(usr){
-                outWrapper.style.display="inherit";
-                Utils.getById("userLabel").innerHTML=usr;
-                inWrapper.style.display="none";
-            }
-            else{
-                outWrapper.style.display="none";
-                inWrapper.style.display="inherit";
-                Utils.getById("userLabel").innerHTML="";
-            }
         }
     }
 })();
@@ -73,5 +97,3 @@ Utils.getById("loginBtn").addEventListener("click",Navbar.logIn);
 Utils.getById("logoutBtn").addEventListener("click",Navbar.logOut);
 Utils.getById("logoNavBtn").addEventListener("click",() => {window.location.reload()})
 
-//run login check
-Navbar.checkLogin();

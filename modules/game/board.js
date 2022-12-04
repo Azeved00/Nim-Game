@@ -1,9 +1,3 @@
-function closeBtn(){
-    Utils.getById("playBtnWrapper").style.display="block";
-    Utils.getById("configBtnWrapper").style.display="block";
-    Utils.getById("giveUpBtnWrapper").style.display="none";
-}
-
 class Game {
     static board = Utils.getById("Board");
     static trigger(e) {Utils.triggerEvent(Game.board,e);}
@@ -52,6 +46,25 @@ class Game {
             const data = JSON.parse(ev.data);
             console.log(data);
             if(this.inGame === false){
+                if(data.winner && data.winner === null){
+                    Modals.Msgs.edit({
+                        title:"Game Timed Out!",
+                        show:true,
+                        message:"Opponent was now found",
+                        closeBtn:true,
+                        buttons:[
+                            {
+                                text:"Ok",
+                                callback: () => {
+                                    Modals.Msgs.toggle();
+                                },
+                            }
+                        ]
+                    })
+                    this.end();
+                    return null;
+                }
+                Utils.triggerEvent(Utils.getById("commandsTab"),"found");
                 this.inGame = true;
                 Modals.Msgs.edit({
                     title:"Game Started!",
@@ -82,7 +95,7 @@ class Game {
                             text:"Ok",
                             callback: () => {
                                 Modals.Msgs.toggle();
-                                closeBtn();
+                                Utils.triggerEvent(Utils.getById("commandsTab"),"gameEnded");
                             },
                         }
                     ]
@@ -91,7 +104,7 @@ class Game {
             }
             else{
                 this.rack = data.rack;
-                this.turn = (Navbar.getUser() == data.turn);
+                this.playing = (Navbar.getUser() == data.turn);
                 Game.trigger("play");
             }
         }
@@ -157,10 +170,14 @@ class Game {
 
         Game.trigger("play");
         if(this.config.ai)
+        {
+            Utils.triggerEvent(Utils.getById("commandsTab"),"found");
             this.inGame = true;
+        }   
         else{
             this.setUp();
         }
+
     }
 
     nimSum(){
@@ -192,7 +209,7 @@ class Game {
                     text:"Ok",
                     callback: () => {
                         Modals.Msgs.toggle();
-                        closeBtn();
+                        Utils.triggerEvent(Utils.getById("commandsTab"),"gameEnded");
                     },
                 },
                 {
@@ -283,7 +300,7 @@ class Game {
             })
             return false;
         }
-        if(this.playing === true && opt.osAi ===false) return false;
+        if(this.playing === true && opt.isAi === true) return false;
         if(this.playing === false && opt.isAi === false){
             Modals.Msgs.edit({
                 title:"Invalid Move",
@@ -303,14 +320,28 @@ class Game {
         opt.otr = parseInt(opt.otr);
         if(opt.pile !== 0  && Utils.isNOE(opt.pile) || Utils.isNOE(opt.otr)) return false;
 
-        if(opt.otr === -1)
-            this.rack[opt.pile] = 0;
-        else
-            this.rack[opt.pile]-=opt.otr; 
+        if(this.config.ai===false){
+            makeRequest({
+                "command" : "notify",
+                "body": {
+                    "nick": Navbar.getUser(),
+                    "password": Navbar.getPassword(),
+                    "game": this.id,
+                    "stack": opt.pile,
+                    "pieces": this.rack[opt.pile]-opt.otr,
+                },
+                "group":true,
+            })
 
-        if(this.rack[opt.pile] < 0) 
-            this.rack[opt.pile] = 0;
+        }else{
+            if(opt.otr === -1)
+                this.rack[opt.pile] = 0;
+            else
+                this.rack[opt.pile]-=opt.otr; 
 
+            if(this.rack[opt.pile] < 0) 
+                this.rack[opt.pile] = 0;
+        }
         this.playing=!this.playing;
 
         Messages.add(`Taken ${opt.balls} balls from ${opt.col+1} collumn;`);
@@ -355,6 +386,30 @@ class Game {
         }
         this.end();
         Messages.add("You gave up the the game!");
+    }
+
+    async cancelSearch(){
+        Modals.Msgs.edit({
+            title:"Opponent Not Found",
+            show:true,
+            message:"You canceled the search before an opponent was found!",
+            buttons:[
+                {
+                    text:"Ok",
+                    callback: Modals.Msgs.toggle,
+                },
+            ]
+        })
+        await makeRequest({
+            command:"leave",
+            body:{
+                nick: Navbar.getUser(),
+                password: Navbar.getPassword(),
+                game: this.id
+                }
+        })
+        this.end();
+        Messages.add("Opponent Search was cancelled");
     }
 
     end(){
