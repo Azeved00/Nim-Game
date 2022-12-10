@@ -1,6 +1,6 @@
 @font-face {
-  font-family: SpaceMono;
-  src: url("../../assets/fonts/SpaceMono-Bold.ttf");
+    font-family: 'Space Mono';
+    src: url("/assets/fonts/SpaceMono-Bold.ttf");
 }
 
 *{
@@ -23,7 +23,7 @@
     --ball-margin: 0.2em;
 
     --modal-br: 15px;
-    font-family: SpaceMono;
+    font-family: 'Space Mono';
 }
 
 body{

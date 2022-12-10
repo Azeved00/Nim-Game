@@ -37,8 +37,15 @@ module.exports = class {
                 let regex = new RegExp(/(^\/assets\/)|^(\/components\/)|(\/src\/)/m);
                 if( pathname === "" || pathname === "/" || pathname === "/index.html")
                     this.sendFile(response,"/index.html");
-                if(regex.test(pathname))
+                else if(pathname === "/favicon.ico")
+                    this.sendFile(response,"/assets/favicon.ico");
+                else if(regex.test(pathname))
                     this.sendFile(response,pathname);
+                else 
+                    this.sendError(response,{
+                        code: 404,
+                        msg: "Data not Found"
+                    })
             }
             else {
                 this.sendError(response,{
@@ -56,7 +63,7 @@ module.exports = class {
         })
 
         console.log("\t Error: " + opt.msg);
-        response.writeHead(opt.code, {'Content-Type': 'application/json'});
+        response.writeHead(opt.code, {});
         response.end(JSON.stringify({
             "error":opt.msg
         }));
@@ -70,20 +77,25 @@ module.exports = class {
         typeMap.set(".css", "text/css");
         typeMap.set(".html","text/html");
         typeMap.set(".js",  "application/javascript");
-        typeMap.set(".ico", "image/x-icon");
+        typeMap.set(".ico", "image/ico");
         typeMap.set(".png", "image/png");
         typeMap.set(".ttf", "font/ttf");
 
         let type = typeMap.get(match[0]);
         if(!type) type = "text/plain";
 
-        await fs.readFile(path,'utf8',(err,data) => {
+        let mode = 'utf-8';
+        if(type === "image/ico" || type=== "image/png" || type==="font/ttf")
+            mode = "";
+
+        await fs.readFile(path,mode,(err,data) => {
             if(!err) {
                 console.log("\tOK!")
                 response.writeHead(200, {'Content-Type' : type});
                 response.end(data);
             }
             else {
+                console.log(err);
                 this.sendError(response,{
                     code: 404,
                     msg: "Error reading file " + path
@@ -98,6 +110,7 @@ module.exports = class {
     }
     
     start(){
+        console.log("Server Started @ http://localhost:"+this.port);
         this.server.listen(this.port);
     }
 }
