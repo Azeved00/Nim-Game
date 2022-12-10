@@ -11,7 +11,6 @@ module.exports = class {
     constructor(port){
         this.port = port;
         this.server = http.createServer((request, response) => {
-            this.response = response;
             const parsedUrl = url.parse(request.url,true);    
             const pathname = parsedUrl.pathname;
             const query = parsedUrl.query;
@@ -37,12 +36,12 @@ module.exports = class {
             else if(request.method === "GET"){
                 let regex = new RegExp(/(^\/assets\/)|^(\/components\/)|(\/src\/)/m);
                 if( pathname === "" || pathname === "/" || pathname === "/index.html")
-                    this.sendFile("/index.html");
+                    this.sendFile(response,"/index.html");
                 if(regex.test(pathname))
-                    this.sendFile(pathname);
+                    this.sendFile(response,pathname);
             }
             else {
-                this.sendError({
+                this.sendError(response,{
                     code:404,
                     msg:"Pedido Desconhecido"
                 })
@@ -50,20 +49,20 @@ module.exports = class {
         });
     }
 
-    sendError(input){
+    sendError(response,input){
         let opt = setDefaults(input,{
             code : 400,
             msg: "Houve um erro no pedido"
         })
 
         console.log("\t Error: " + opt.msg);
-        this.response.writeHead(opt.code, {'Content-Type': 'application/json'});
-        this.response.end(JSON.stringify({
+        response.writeHead(opt.code, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({
             "error":opt.msg
         }));
     }
    
-    async sendFile(path){
+    async sendFile(response,path){
         path = "." + path;
         let typeRegEx = new RegExp(/\.[a-z]+$/m);
         let match = typeRegEx.exec(path);
@@ -81,18 +80,21 @@ module.exports = class {
         await fs.readFile(path,'utf8',(err,data) => {
             if(!err) {
                 console.log("\tOK!")
-                this.response.writeHead(200, {'Content-Type' : type});
-                this.response.end(data);
+                response.writeHead(200, {'Content-Type' : type});
+                response.end(data);
             }
             else {
-                this.sendError("Error reading file " + path);
+                this.sendError(response,{
+                    code: 404,
+                    msg: "Error reading file " + path
+                });
             }
         });
     }
 
-    sendJSON(input){ 
-        this.response.writeHead(200, {'Content-Type': 'application/json'});
-        this.response.end(JSON.stringify(input))
+    sendJSON(response,input){ 
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(input))
     }
     
     start(){
