@@ -34,11 +34,11 @@ module.exports = class {
                 } 
             }
             else if(request.method === "GET"){
-                let regex = new RegExp(/(^\/assets\/)|^(\/components\/)|(\/src\/)/m);
+                let regex = new RegExp(/(^\/client\/)/m);
                 if( pathname === "" || pathname === "/" || pathname === "/index.html")
-                    this.sendFile(response,"/index.html");
+                    this.sendFile(response,"/client/index.html");
                 else if(pathname === "/favicon.ico")
-                    this.sendFile(response,"/assets/favicon.ico");
+                    this.sendFile(response,"/client/assets/favicon.ico");
                 else if(regex.test(pathname))
                     this.sendFile(response,pathname);
                 else 
