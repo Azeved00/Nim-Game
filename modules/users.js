@@ -1,20 +1,22 @@
 require('./utils.js');
 const   fs = require('fs');
+const file = "data/users.json";
+
+
+let users;
+function loadUsers () {
+    let data = fs.readFileSync(file);
+    users = JSON.parse(data.toString());
+}
+
+function addUser (usr) {
+    users.push(usr);
+    fs.writeFileSync(file,JSON.stringify(users));
+}
 
 //register using : nick & password
 module.exports = function () {
     let module = {};
-
-    let users;
-    function loadUsers () {
-        let data = fs.readFileSync("data/users.json");
-        users = JSON.parse(data.toString());
-    }
-
-    function addUser (usr) {
-        users.push(usr);
-        fs.writeFileSync("data/users.json",JSON.stringify(users));
-    }
 
     module.register= function (body){
         try {
