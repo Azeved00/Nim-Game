@@ -40,8 +40,8 @@ class Game {
 
         }
 
-        let url = `http://twserver.alunos.dcc.fc.up.pt:8008/update?nick=${Navbar.getUser()}&game=${this.id}`
-        this.eventSource = new EventSource(url);
+        let sseurl = url+`update?nick=${Navbar.getUser()}&game=${this.id}`
+        this.eventSource = new EventSource(sseurl);
         this.eventSource.onmessage = (ev) => {
             const data = JSON.parse(ev.data);
             console.log(data);
