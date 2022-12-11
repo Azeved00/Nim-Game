@@ -31,7 +31,7 @@ var Modals = (function () {
                     Utils.getById("configErrors").innerHTML="";
                 },
                 toggle: () => {
-                    check(m,Modals.Config.toggle)
+                    check(m,()=>{Config.reset();Modals.Config.toggle()});
                 }
             }
         })(),
