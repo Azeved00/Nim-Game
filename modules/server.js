@@ -1,75 +1,17 @@
 //here will be a module where i can treat the 
+require('./utils.js')
 const   http = require('http'),
         url  = require('url'),
-        fs   = require('fs');
+        fs   = require('fs'),
+        users= require('./users.js')();
+        rank = require('./ranking.js')(); 
 
-function setDefaults (obj,def) {
-    return Object.assign({},def,obj);
-};
+module.exports = function (port) {
+    let module = {};
+    module.port = port;
 
-module.exports = class {
-    constructor(port){
-        this.port = port;
-        this.server = http.createServer((request, response) => {
-            const parsedUrl = url.parse(request.url,true);    
-            const pathname = parsedUrl.pathname;
-            const query = parsedUrl.query;
-           
-            console.log(request.method + " @ " + pathname);            
-            if(request.method === "POST"){
-                switch(pathname){
-                    case "/register":
-                        this.sendJSON({text:"HII"});
-                        break;
-                    case "/join":
-                        break;
-                    case "/leave":
-                        break;
-                    case "/notify":
-                        break;
-                    case "/update":
-                        break;
-                    case "/ranking":
-                        break;
-                } 
-            }
-            else if(request.method === "GET"){
-                let regex = new RegExp(/(^\/client\/)/m);
-                if( pathname === "" || pathname === "/" || pathname === "/index.html")
-                    this.sendFile(response,"/client/index.html");
-                else if(pathname === "/favicon.ico")
-                    this.sendFile(response,"/client/assets/favicon.ico");
-                else if(regex.test(pathname))
-                    this.sendFile(response,pathname);
-                else 
-                    this.sendError(response,{
-                        code: 404,
-                        msg: "Data not Found"
-                    })
-            }
-            else {
-                this.sendError(response,{
-                    code:404,
-                    msg:"Pedido Desconhecido"
-                })
-            }
-        });
-    }
-
-    sendError(response,input){
-        let opt = setDefaults(input,{
-            code : 400,
-            msg: "Houve um erro no pedido"
-        })
-
-        console.log("\t Error: " + opt.msg);
-        response.writeHead(opt.code, {});
-        response.end(JSON.stringify({
-            "error":opt.msg
-        }));
-    }
-   
-    async sendFile(response,path){
+    //------------------- HELPER FUNCTIONS ---------------------
+    async function sendFile(response,path){
         path = "." + path;
         let typeRegEx = new RegExp(/\.[a-z]+$/m);
         let match = typeRegEx.exec(path);
@@ -96,7 +38,7 @@ module.exports = class {
             }
             else {
                 console.log(err);
-                this.sendError(response,{
+                response.sendError(response,{
                     code: 404,
                     msg: "Error reading file " + path
                 });
@@ -104,13 +46,78 @@ module.exports = class {
         });
     }
 
-    sendJSON(response,input){ 
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(input))
+    //--------------------HANDLER FUNCTIONS---------------------
+    async function postMethod (response,pathname,body) {
+        switch(pathname){
+            case "/register":
+                users.register(response,body);
+                break;
+            case "/join":
+                rank.addEntry(body)
+                break;
+            case "/leave":
+                break;
+            case "/notify":
+                break;
+            case "/ranking":
+                rank.checkRank(response,body);
+                break;
+        } 
+    }  
+
+    async function getFileMethod (response,pathname){
+        const regex = new RegExp(/(^\/client\/)/m);
+        if( pathname === "" || pathname === "/" || pathname === "/index.html")
+            sendFile(response,"/client/index.html");
+        else if(pathname === "/favicon.ico")
+            sendFile(response,"/client/assets/favicon.ico");
+        else if(regex.test(pathname))
+            sendFile(response,pathname);
+        else 
+            sendError(response,{
+                code: 404,
+                msg: "Data not Found"
+            })
     }
+
+    //---------------------SERVER-------------------------
+    module.server = http.createServer((request, response) => {
+        const parsedUrl = url.parse(request.url,true);    
+        const pathname = parsedUrl.pathname;
+        const query = parsedUrl.query;   
+        let body = '';
+        
+        console.log(request.method + " @ " + pathname);
+        switch(request.method){
+            case "POST":
+                request.on('data', (chunk) => { body += chunk;  })
+                    .on('end', () => {
+                        try { 
+                            let fbody = JSON.parse(body);  
+                            postMethod(response,pathname,fbody);     
+                        }
+                        catch(err) {  console.log(err.message) }
+                })
+                .on('error', (err) => { console.log(err.message); });
+                break;
+            case "GET":
+                if(pathname === "/update"){
+                    //here update will be done
+                }
+                getFileMethod(response,pathname);
+                break;
+            default:
+                sendError(response,{
+                    code:404,
+                    msg:"Pedido Desconhecido"
+                })
+        }
+    });
     
-    start(){
-        console.log("Server Started @ http://localhost:"+this.port);
-        this.server.listen(this.port);
+    module.start= () => {
+        console.log("Server Started @ http://localhost:"+module.port);
+        module.server.listen(module.port);
     }
+
+    return module;
 }

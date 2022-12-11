@@ -1,6 +1,8 @@
 async function makeRequest (input){
     const group = 4;
-    const url = "http://twserver.alunos.dcc.fc.up.pt:8008/";
+    //const url = "http://twserver.alunos.dcc.fc.up.pt:8008/";
+    const url = "http://localhost:8004/"
+    
     var opt = Utils.setDefaults(input,{
         method: "POST",
         errorModal: true,

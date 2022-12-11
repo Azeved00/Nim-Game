@@ -58,7 +58,8 @@ body{
 .btn, button {
     background-color: var(--color-3);
     border-radius: 8px;
-    border-width: 0;
+    /*this is an error of css but it looks amazing:border-width: 2px var(--color-3) solid;*/
+    border: 2px var(--color-3) solid;
     color: white;
     cursor: pointer;
     font-size: 18px;
@@ -72,6 +73,7 @@ body{
 .btn:hover, button:hover {
     background-color: var(--color-4);
     border-radius: 12px;
+    border: 2px white solid;
 }
 
 
