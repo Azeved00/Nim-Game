@@ -75,11 +75,14 @@ module.exports = function () {
     }
 
     //---------------------MODULE FUNCTIONS-------------------
-    function update(id){}
+    function update(id){
+        console.log("game " + id + " updated")
+        deleteGame(id);
+    }
     module.join  = function (nick,group,size) {
         try{
             let g = searchGame(group,size,nick);
-            return g;
+            return {"game":g.id};
         }
         catch(err){
             console.log("Error searching game");
@@ -87,7 +90,45 @@ module.exports = function () {
         }
     };
     module.play  = function (nick,game) {};
-    module.leave = function (nick,game) {};
+    module.leave = function (nick,id) {
+        try{
+            let data = JSON.parse(fs.readFileSync("data/games.json"));
+            let wait = data.waiting, play = data.playing;
+
+            let game = wait.findIndex(e => (e.id === id));
+            if(game !== -1) {
+                wait[game].rack = [0];
+                if(wait[game].player1 === nick)
+                    wait[game].who = true;
+                else
+                    wait[game].who = false;
+                update(id);
+                wait.splice(game,1);
+            }
+            else{
+                game = play.findIndex(e => (e.id === id));
+                if(game !== -1){
+                    play[game].rack = [0];
+                    if(play[game].player1 === nick)
+                        play[game].who = true;
+                    else
+                        play[game].who = false;
+                    update(id);
+                    play.splice(game,1);
+                }
+                else{
+                    return false;
+                }
+            }
+            
+            fs.writeFileSync("data/games.json",JSON.stringify({"waiting":wait,"playing":play}));
+            return true;
+        }
+        catch(err){
+            console.log(err.message);
+            throw err;
+        }        
+    };
 
     return module;
 }

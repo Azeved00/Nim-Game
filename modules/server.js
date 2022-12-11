@@ -89,8 +89,47 @@ module.exports = function (port) {
                 }
                 break;
             case "/leave":
+                try{
+                    let check = users.register(body);
+                    if(check !== true){
+                        return sendError(response,{
+                            code: 401,
+                            msg: "Username or Password is incorrect"
+                        });
+                    }
+                    let res = game.leave(body.nick,body.game)
+                    if(res === true)
+                        sendJSON(response,{});
+                    else
+                        sendError(response,{msg:"Game not found"});
+                }
+                catch(err){
+                    sendError(response,{
+                        code: 500,
+                        msg: "Server Error"
+                    })
+                }
+                break;
                 break;
             case "/notify":
+                try{
+                    let check = users.register(body);
+                    if(check !== true){
+                        return sendError(response,{
+                            code: 401,
+                            msg: "Username or Password is incorrect"
+                        });
+                    }
+                    
+                    sendJSON(response,game.join(body.nick,body.group,body.size));
+                }
+                catch(err){
+                    sendError(response,{
+                        code: 500,
+                        msg: "Server Error"
+                    })
+                }
+                break;
                 break;
             case "/ranking":
                 rank.checkRank(response,body);
