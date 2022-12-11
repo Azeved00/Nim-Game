@@ -3,8 +3,9 @@ require('./utils.js')
 const   http = require('http'),
         url  = require('url'),
         fs   = require('fs'),
-        users= require('./users.js')();
-        rank = require('./ranking.js')(); 
+        users= require('./users.js')(),
+        rank = require('./ranking.js')(),
+        game = require('./game.js')(); 
 
 module.exports = function (port) {
     let module = {};
@@ -50,10 +51,42 @@ module.exports = function (port) {
     async function postMethod (response,pathname,body) {
         switch(pathname){
             case "/register":
-                users.register(response,body);
+                try{
+                    let check = users.register(body);
+                    if(check !== true){
+                        return sendError(response,{
+                            code: 401,
+                            msg: "Username or Password is incorrect"
+                        });
+                    }
+                    sendJSON(response,{});
+
+                }
+                catch(err){
+                    sendError(response,{
+                        code: 500,
+                        msg: "Server Error"
+                    })
+                }
                 break;
             case "/join":
-                rank.addEntry(body)
+                try{
+                    let check = users.register(body);
+                    if(check !== true){
+                        return sendError(response,{
+                            code: 401,
+                            msg: "Username or Password is incorrect"
+                        });
+                    }
+                    
+                    sendJSON(response,game.join(body.nick,body.group,body.size));
+                }
+                catch(err){
+                    sendError(response,{
+                        code: 500,
+                        msg: "Server Error"
+                    })
+                }
                 break;
             case "/leave":
                 break;
@@ -83,7 +116,7 @@ module.exports = function (port) {
     //---------------------SERVER-------------------------
     module.server = http.createServer((request, response) => {
         const parsedUrl = url.parse(request.url,true);    
-        const pathname = parsedUrl.pathname;
+        const pathname = parsedUrl.path;
         const query = parsedUrl.query;   
         let body = '';
         
@@ -93,8 +126,8 @@ module.exports = function (port) {
                 request.on('data', (chunk) => { body += chunk;  })
                     .on('end', () => {
                         try { 
-                            let fbody = JSON.parse(body);  
-                            postMethod(response,pathname,fbody);     
+                            body = JSON.parse(body);  
+                            postMethod(response,pathname,body);     
                         }
                         catch(err) {  console.log(err.message) }
                 })

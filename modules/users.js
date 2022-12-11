@@ -16,7 +16,7 @@ module.exports = function () {
         fs.writeFileSync("data/users.json",JSON.stringify(users));
     }
 
-    module.register= function (response,body){
+    module.register= function (body){
         try {
             loadUsers();
             const search = users.find(e => e.nick === body.nick);
@@ -24,24 +24,15 @@ module.exports = function () {
 
             if(!search) addUser(body);
             else if(body.password !== search.password){
-                sendError(response,{
-                    code: 401,
-                    msg: "Username or Password is incorrect"
-                });
-                return;
+                return "Username or Password is incorrect";
             }
 
-            response.end(JSON.stringify({}))
-            console.log("OK!");
             users = null;
+            return true;
         }
         catch (err){
             console.log("Error loading Users file: " + err.message);
-
-            sendError(response,{
-                code: 500,
-                msg: "Server Error"
-            })
+            throw err;
         }
     }
 

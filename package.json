@@ -1,6 +1,6 @@
 {
     "scripts":{
-        "start": "nodemon index.js"
+        "start": "nodemon --ignore data/games.json --ignore data/leaderboard.json --ignore users.json index.js"
     },
     "devDependencies": {
         "nodemon": "^2.0.20"

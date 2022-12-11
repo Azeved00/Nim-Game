@@ -88,7 +88,7 @@ module.exports = function () {
             let data = getRanking(body.group, body.size);
             data.sort((a,b)=>{return b.victories - a.victories});
 
-            sendJSON(response,data.slice(0,9));
+            sendJSON(response,{"ranking":data.slice(0,9)});
         }
         catch (err){
             console.log(err.message);
