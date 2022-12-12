@@ -5,7 +5,8 @@ const   http = require('http'),
         fs   = require('fs'),
         users= require('./users.js')(),
         rank = require('./ranking.js')(),
-        game = require('./game.js')(); 
+        game = require('./game.js')(),
+        updater = require('./updater.js');
 
 
 const typeMap = {
@@ -140,7 +141,7 @@ async function postMethod (response,pathname,body) {
 async function getFileMethod (response,pathname){
     const regex = new RegExp(/(^\/client\/)/m);
     if( pathname === "" || pathname === "/" || pathname === "/index.html")
-        sendFile(response,"/client/index.html");
+        sendFile(response,"/index.html");
     else if(pathname === "/favicon.ico")
         sendFile(response,"/client/assets/favicon.ico");
     else if(regex.test(pathname))
@@ -178,10 +179,13 @@ module.exports = function (port) {
                 .on('error', (err) => { console.log(err.message); });
                 break;
             case "GET":
-                if(pathname === "/update"){
-                    //here update will be done
+                const regex = new RegExp(/(^\/update\?)/m);
+                if(regex.test(pathname)){
+                    updater.remember(query.game,response);
+                    request.on('close', () => updater.forget(query.game,response)); 
+                    setImmediate(() => updater.update(query.game,{}));
                 }
-                getFileMethod(response,pathname);
+                else getFileMethod(response,pathname);
                 break;
             default:
                 sendError(response,{

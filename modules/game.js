@@ -1,5 +1,5 @@
 require("./utils.js");
-
+const updater = require("./updater.js");
 const fs = require("fs");
 const file = "data/games.json";
 
@@ -60,6 +60,7 @@ function searchGame(group,size,nick){
             g.player2 = nick;
             wait.splice(game,1);
             play.push(g);
+            update(g);
         }
 
         fs.writeFileSync(file,JSON.stringify({"waiting":wait,"playing":play}));
@@ -75,9 +76,10 @@ module.exports = function () {
     let module = {};
 
     //---------------------MODULE FUNCTIONS-------------------
-    function update(id){
-        console.log("game " + id + " updated")
-        deleteGame(id);
+    function update(game){
+        //check if game has ended
+        //search for the game
+        updater.update(game.id,);
     }
    
     module.join  = function (nick,group,size) {
