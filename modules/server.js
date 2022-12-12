@@ -17,6 +17,7 @@ const typeMap = {
     ".png":"image/png",
     ".ttf":"font/ttf"
 }
+
 //------------------- HELPER FUNCTIONS ---------------------
 async function sendFile(response,path){
     path = "." + path;
@@ -183,7 +184,12 @@ module.exports = function (port) {
                 if(regex.test(pathname)){
                     updater.remember(query.game,response);
                     request.on('close', () => updater.forget(query.game,response)); 
-                    setImmediate(() => updater.update(query.game,{}));
+                    response.writeHead(200,{    
+                                'Content-Type': 'text/event-stream',
+                                'Cache-Control': 'no-cache',
+                                'Access-Control-Allow-Origin': '*',
+                                'Connection': 'keep-alive'        
+                    });
                 }
                 else getFileMethod(response,pathname);
                 break;

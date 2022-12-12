@@ -1,3 +1,4 @@
+
 require("./utils.js");
 const updater = require("./updater.js");
 const fs = require("fs");
@@ -6,18 +7,17 @@ const file = "data/games.json";
 //---------------------GAME FUNCTIONS---------------------
 function deleteGame(id){
     try{
+        console.log("Deleting " + id);
         let data = JSON.parse(fs.readFileSync(file));
         let wait = data.waiting, play = data.playing;
 
         let game = wait.findIndex(e => (e.id === id));
         if(game !== -1) wait.splice(game,1);
 
-        
-        game = play.findIndex(e => (e.id === id));
-        if(game !== -1) play.splice(game,1);
-        
+        let game2 = play.findIndex(e => (e.id === id));
+        if(game2 !== -1) play.splice(game2,1);
 
-        fs.writeFileSync("data/games.json",JSON.stringify({"waiting":wait,"playing":play}));
+        fs.writeFileSync(file,JSON.stringify({"waiting":wait,"playing":play}));
     }
     catch(err){
         console.log(err.message);
@@ -44,6 +44,34 @@ function newGame(group,size,nick){
     return game;
 }
 
+function finished (game){
+    let i;
+    for(i = 0; i < game.size; i++)
+        if(game.rack[i] !== 0) return false;
+    return true;
+}
+
+
+function update(game,inWait = false){
+    if(finished(game) ) {
+        deleteGame(game.id);
+        if(inWait) updater.update(game.id,{"winner":null});
+        if(game.turn === true) updater.update(game.id,{"winner":game.player2});
+        else updater.update(game.id,{"winner":game.player1}); 
+        return;
+    }
+    
+    console.log("Updating: "+ JSON.stringify(game));
+    let turn = game.player1;
+    if(game.turn===false) turn = game.player2;
+    
+    //search for the game
+    updater.update(game.id,{
+        "turn":turn,
+        "rack": game.rack
+    });
+}
+
 function searchGame(group,size,nick){
     try{
         let data = JSON.parse(fs.readFileSync(file));
@@ -60,7 +88,7 @@ function searchGame(group,size,nick){
             g.player2 = nick;
             wait.splice(game,1);
             play.push(g);
-            update(g);
+            updater.signal(g.id);
         }
 
         fs.writeFileSync(file,JSON.stringify({"waiting":wait,"playing":play}));
@@ -75,13 +103,8 @@ function searchGame(group,size,nick){
 module.exports = function () {
     let module = {};
 
-    //---------------------MODULE FUNCTIONS-------------------
-    function update(game){
-        //check if game has ended
-        //search for the game
-        updater.update(game.id,);
-    }
-   
+    //---------------------MODULE FUNCTIONS------------------- 
+
     module.join  = function (nick,group,size) {
         try{
             let g = searchGame(group,size,nick);
@@ -118,9 +141,9 @@ module.exports = function () {
             
             if(play[game].rack[stack] <= pieces) return "Invalid Move";
             play[game].rack[stack] = pieces;
-            //update(play[game].id);
-
+            
             fs.writeFileSync(file,JSON.stringify({"waiting":wait,"playing":play}));
+            update(play[game]);
             return true;
         }
         catch(err){
@@ -136,12 +159,12 @@ module.exports = function () {
 
             let game = wait.findIndex(e => (e.id === id));
             if(game !== -1) {
-                wait[game].rack = [0];
+                wait[game].rack = Array(wait[game].size).fill(0);
                 if(wait[game].player1 === nick)
                     wait[game].turn = true;
                 else
                     wait[game].turn = false;
-                update(id);
+                update(wait[game],false);
                 wait.splice(game,1);
             }
             else{
@@ -152,7 +175,7 @@ module.exports = function () {
                         play[game].turn = true;
                     else
                         play[game].turn = false;
-                    update(id);
+                    update(play[game]);
                     play.splice(game,1);
                 }
                 else{
