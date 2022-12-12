@@ -2,6 +2,7 @@
 require("./utils.js");
 const updater = require("./updater.js");
 const fs = require("fs");
+const rank = require("./ranking.js")();
 const file = "data/games.json";
 
 //---------------------GAME FUNCTIONS---------------------
@@ -54,10 +55,23 @@ function finished (game){
 
 function update(game,inWait = false){
     if(finished(game) ) {
-        deleteGame(game.id);
+        rank.addEntry({
+            "nick":game.player1,
+            "result":!game.turn,
+            "group":game.group,
+            "size":game.size
+        });
+        rank.addEntry({
+            "nick":game.player2,
+            "result":game.turn,
+            "group":game.group,
+            "size":game.size
+        })
+
         if(inWait) updater.update(game.id,{"winner":null});
         if(game.turn === true) updater.update(game.id,{"winner":game.player2});
         else updater.update(game.id,{"winner":game.player1}); 
+        deleteGame(game.id);
         return;
     }
     
@@ -170,7 +184,7 @@ module.exports = function () {
             else{
                 game = play.findIndex(e => (e.id === id));
                 if(game !== -1){
-                    play[game].rack = [0];
+                    play[game].rack =  Array(play[game].size).fill(0);
                     if(play[game].player1 === nick)
                         play[game].turn = true;
                     else
